@@ -34,3 +34,12 @@ spring:
       # 开启SQL显示，默认false
       sql:
         show: true
+
+# 单数据源配置
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.ozz.shadingjdbc.model
+  type-aliases-super-type: com.ozz.shadingjdbc.model.BaseObject
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    mapUnderscoreToCamelCase: true
