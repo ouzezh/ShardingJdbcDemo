@@ -35,7 +35,6 @@ spring:
       sql:
         show: true
 
-# 单数据源配置
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: com.ozz.shadingjdbc.model

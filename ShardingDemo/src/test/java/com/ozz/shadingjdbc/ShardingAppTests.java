@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MasterSlaveAppTests {
+class ShardingAppTests {
 
   @Autowired
   MyService myService;
@@ -14,8 +14,8 @@ class MasterSlaveAppTests {
   @Test
   void contextLoads() {
     System.out.println(myService.selectMaster());
-    System.out.println(myService.selectSlave());
-    myService.update();
+//    System.out.println(myService.selectSlave());
+//    myService.update();
   }
 
 }
