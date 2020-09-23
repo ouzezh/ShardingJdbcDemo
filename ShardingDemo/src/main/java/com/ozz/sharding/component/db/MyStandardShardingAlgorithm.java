@@ -1,7 +1,9 @@
 package com.ozz.sharding.component.db;
 
+import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
 import java.util.Collection;
+import java.util.Collections;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
@@ -10,30 +12,26 @@ import org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;
 public class MyStandardShardingAlgorithm implements PreciseShardingAlgorithm<Long>, RangeShardingAlgorithm<Long> {
   @Override
   public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
-    System.out.println(availableTargetNames);// XXX
-    shardingValue.getLogicTableName();
-    shardingValue.getColumnName();
-    Long v = shardingValue.getValue();
-    return String.format("xx_%s", v.longValue() % 2);
+    return String.format("%s_%s", shardingValue.getLogicTableName(), shardingValue.getValue() % 2);
   }
 
   @Override
   public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<Long> shardingValue) {
-    System.out.println(availableTargetNames); // XXX
-    shardingValue.getLogicTableName();
-    shardingValue.getColumnName();
     Range range = shardingValue.getValueRange();
-    if(range.hasLowerBound()) {
-      range.lowerBoundType();
-      range.lowerEndpoint();
+    Long lower = getEndPoint(range.hasLowerBound(), range.lowerBoundType(), range.lowerEndpoint(), 1);
+    Long upper = getEndPoint(range.hasUpperBound(), range.upperBoundType(), range.upperEndpoint(), -1);
+    if(lower == null || upper == null || lower > upper) {
+      return availableTargetNames;
+    } else {
+      return Collections.singletonList(String.format("%s_%s", shardingValue.getLogicTableName(), lower % 2));
     }
-    if(range.hasUpperBound()) {
-      range.upperBoundType();
-      range.upperEndpoint();
+  }
+
+  private Long getEndPoint(boolean hasBound, BoundType boundType, Comparable endpoint, int closeFix) {
+    if(!hasBound) {
+      return null;
     }
-    if(true) {
-      throw new RuntimeException("NOT_SUPPORT");
-    }
-    return null;
+    Long v = (Long) endpoint;
+    return boundType == BoundType.CLOSED ? v : v + closeFix;
   }
 }

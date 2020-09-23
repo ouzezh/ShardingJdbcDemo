@@ -53,13 +53,13 @@ spring:
               worker:
                 id: 123
             type: SNOWFLAKE
-          database-strategy:
-            hint:
-              algorithm-class-name: com.ozz.shadingjdbc.component.db.MyHintShardingAlgorithm
+#          database-strategy:
+#            hint:
+#              algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
           table-strategy:
             standard:
-              precise-algorithm-class-name: com.ozz.shadingjdbc.component.db.MyStandardShardingAlgorithm
-              range-algorithm-class-name: com.ozz.shadingjdbc.component.db.MyStandardShardingAlgorithm
+              precise-algorithm-class-name: com.ozz.sharding.component.db.MyStandardShardingAlgorithm
+              range-algorithm-class-name: com.ozz.sharding.component.db.MyStandardShardingAlgorithm
               sharding-column: order_id
         t_order_item:
           actual-data-nodes: ds$->{0..1}.t_order_item_$->{0..1}
@@ -73,6 +73,9 @@ spring:
             inline:
               algorithm-expression: t_order_item_$->{order_id % 2}
               sharding-column: order_id
+    props:
+      sql:
+        show: true
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml

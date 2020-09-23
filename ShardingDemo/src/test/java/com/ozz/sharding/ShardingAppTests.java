@@ -13,7 +13,12 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-    System.out.println(myService.selectOrderMaster());
+    System.out.println(myService.selectOrderMaster(1l, 1l));
+//    System.out.println(myService.selectOrderSlave());
+
+//    myService.insertOrder(new TOrder(1l, null));
+//    myService.insertOrder(new TOrder(1l, 1l));
+
 //    System.out.println(myService.selectSlave());
 //    myService.update();
   }
