@@ -4,9 +4,9 @@ spring:
   shardingsphere:
     datasource:
       names:
-        master,slave0
+        ds-master,ds-slave0
       # 主数据源
-      master:
+      ds-master:
         type: com.zaxxer.hikari.HikariDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         jdbcUrl: jdbc:mysql://jw_db:3306/api?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
@@ -14,7 +14,7 @@ spring:
         password: p
         maximumPoolSize: 3
       # 从数据源
-      slave0:
+      ds-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         jdbcUrl: jdbc:mysql://jw_db:3306/mysql?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
@@ -27,9 +27,9 @@ spring:
       # 最终的数据源名称
       name: dataSource
       # 主库数据源名称
-      master-data-source-name: master
+      master-data-source-name: ds-master
       # 从库数据源名称列表，多个逗号分隔
-      slave-data-source-names: slave0
+      slave-data-source-names: ds-slave0
     props:
       # 开启SQL显示，默认false
       sql:
