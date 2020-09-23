@@ -1,6 +1,6 @@
-package com.ozz.shadingjdbc;
+package com.ozz.split;
 
-import com.ozz.shadingjdbc.service.MyService;
+import com.ozz.split.service.MyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -4,7 +4,7 @@ spring:
   shardingsphere:
     datasource:
       names:
-        master,slave
+        master,slave0
       # 主数据源
       master:
         type: com.zaxxer.hikari.HikariDataSource
@@ -14,7 +14,7 @@ spring:
         password: p
         maximumPoolSize: 3
       # 从数据源
-      slave:
+      slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         jdbcUrl: jdbc:mysql://jw_db:3306/mysql?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
@@ -29,7 +29,7 @@ spring:
       # 主库数据源名称
       master-data-source-name: master
       # 从库数据源名称列表，多个逗号分隔
-      slave-data-source-names: slave
+      slave-data-source-names: slave0
     props:
       # 开启SQL显示，默认false
       sql:
@@ -37,8 +37,8 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.ozz.shadingjdbc.model
-  type-aliases-super-type: com.ozz.shadingjdbc.model.BaseObject
+  type-aliases-package: com.ozz.split.model
+  type-aliases-super-type: com.ozz.split.model.BaseObject
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     mapUnderscoreToCamelCase: true

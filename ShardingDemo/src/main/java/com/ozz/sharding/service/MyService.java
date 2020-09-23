@@ -1,6 +1,6 @@
-package com.ozz.shadingjdbc.service;
+package com.ozz.sharding.service;
 
-import com.ozz.shadingjdbc.mapper.MyMapper;
+import com.ozz.sharding.mapper.MyShardingMapper;
 import java.util.List;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
@@ -12,22 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MyService {
   @Autowired
-  MyMapper myMapper;
+  MyShardingMapper myShardingMapper;
 
   @Transactional(rollbackFor =Exception.class)
   @ShardingTransactionType(value = TransactionType.XA)
   public void update() {
-    myMapper.update();
+    myShardingMapper.update();
   }
 
-  public List<String> selectMaster() {
+  public List<String> selectOrderMaster() {
     try(HintManager hm = HintManager.getInstance()) {
       hm.setMasterRouteOnly();
-      return myMapper.selectMaster();
+      return myShardingMapper.selectOrder();
     }
   }
 
-  public List<String> selectSlave() {
-    return myMapper.selectSlave();
+  public List<String> selectOrderSlave() {
+    return myShardingMapper.selectOrder();
   }
 }

@@ -1,11 +1,11 @@
-package com.ozz.shadingjdbc;
+package com.ozz.split;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.ozz.shadingjdbc.mapper")
+@MapperScan("com.ozz.split.mapper")
 public class MasterSlaveApp {
 
   public static void main(String[] args) {

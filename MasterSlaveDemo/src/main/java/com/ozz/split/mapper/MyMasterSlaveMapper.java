@@ -1,8 +1,8 @@
-package com.ozz.shadingjdbc.mapper;
+package com.ozz.split.mapper;
 
 import java.util.List;
 
-public interface MyMapper {
+public interface MyMasterSlaveMapper {
   List<String> selectMaster();
   List<String> selectSlave();
   void update();

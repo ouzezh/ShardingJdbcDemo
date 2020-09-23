@@ -1,6 +1,6 @@
-package com.ozz.shadingjdbc.service;
+package com.ozz.split.service;
 
-import com.ozz.shadingjdbc.mapper.MyMapper;
+import com.ozz.split.mapper.MyMasterSlaveMapper;
 import java.util.List;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyService {
   @Autowired
-  MyMapper myMapper;
+  MyMasterSlaveMapper myMapper;
 
   public void update() {
     myMapper.update();

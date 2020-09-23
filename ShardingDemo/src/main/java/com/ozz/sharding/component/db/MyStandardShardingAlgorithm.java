@@ -1,4 +1,4 @@
-package com.ozz.shadingjdbc.component.db;
+package com.ozz.sharding.component.db;
 
 import com.google.common.collect.Range;
 import java.util.Collection;

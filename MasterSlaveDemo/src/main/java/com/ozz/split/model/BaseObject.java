@@ -1,4 +1,4 @@
-package com.ozz.shadingjdbc.model;
+package com.ozz.split.model;
 
 import lombok.Getter;
 import lombok.Setter;

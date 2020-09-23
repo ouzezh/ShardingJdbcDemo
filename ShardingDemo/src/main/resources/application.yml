@@ -1,32 +1,32 @@
 spring:
   shardingsphere:
     datasource:
-      names: ds-master0,ds-master1,ds-master0-slave0,ds-master1-slave0
-      ds-master0:
+      names: ds0-master,ds1-master,ds0-slave0,ds1-slave0
+      ds0-master:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/demo_dsMaster0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         username: api
         password: 'p'
         maximumPoolSize: 3
-      ds-master0-slave0:
+      ds0-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/demo_dsMaster0Slave0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         username: api
         password: 'p'
         maximumPoolSize: 3
-      dsMaster1:
+      ds1-master:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/demo_dsMaster1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         username: api
         password: 'p'
         maximumPoolSize: 3
-      dsMaster1Slave0:
+      ds1-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/demo_dsMaster1Slave0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         username: api
         password: 'p'
         maximumPoolSize: 3
@@ -34,19 +34,19 @@ spring:
       binding-tables: t_order,t_order_item  # 绑定表，不会跨库关联
       broadcast-tables: t_dict # 广播表，每个库中数据一样，多为字典表
       master-slave-rules:
-        ds-0:
-          master-data-source-name: dsMaster0
-          slave-data-source-names: dsMaster0Slave0
-        ds-1:
-          master-data-source-name: dsMaster1
-          slave-data-source-names: dsMaster1Slave0
+        ds0:
+          master-data-source-name: ds0-master
+          slave-data-source-names: ds0-slave0
+        ds1:
+          master-data-source-name: ds1-master # 对应配置ds0-master
+          slave-data-source-names: ds1-slave0
       default-database-strategy:
         inline:
           sharding-column: user_id
-          algorithm-expression: ds-$->{user_id % 2}
+          algorithm-expression: ds$->{user_id % 2}
       tables:
         t_order:
-          actual-data-nodes: ds-$->{0..1}.t_order_$->{0..1}
+          actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
           key-generator:
             column: order_id
             props:
@@ -55,14 +55,14 @@ spring:
             type: SNOWFLAKE
           database-strategy:
             hint:
-              algorithm-class-name: java.lang.Integer
+              algorithm-class-name: com.ozz.shadingjdbc.component.db.MyHintShardingAlgorithm
           table-strategy:
             standard:
               precise-algorithm-class-name: com.ozz.shadingjdbc.component.db.MyStandardShardingAlgorithm
               range-algorithm-class-name: com.ozz.shadingjdbc.component.db.MyStandardShardingAlgorithm
               sharding-column: order_id
         t_order_item:
-          actual-data-nodes: ds-$->{0..1}.t_order_item_$->{0..1}
+          actual-data-nodes: ds$->{0..1}.t_order_item_$->{0..1}
           key-generator:
             column: order_item_id
             props:
@@ -73,3 +73,11 @@ spring:
             inline:
               algorithm-expression: t_order_item_$->{order_id % 2}
               sharding-column: order_id
+
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.ozz.sharding.model
+  type-aliases-super-type: com.ozz.sharding.model.BaseObject
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    mapUnderscoreToCamelCase: true
