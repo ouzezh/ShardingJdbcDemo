@@ -38,13 +38,21 @@ spring:
           master-data-source-name: ds0-master
           slave-data-source-names: ds0-slave0
         ds1:
-          master-data-source-name: ds1-master # 对应配置ds0-master
+          master-data-source-name: ds1-master
           slave-data-source-names: ds1-slave0
+      default-data-source-name: ds1 # 默认数据库(未配置则同broadcast-tables轮询各库)
+      # 默认分库策略,同时满足以下两个条件触发
+      # 1.HintManager.getInstance().setDatabaseShardingValue(只分库,跳过SQL解析和改写阶段)或addDatabaseShardingValue
+      # 2.配置tables.<tableName>.actual-data-nodes
       default-database-strategy:
-        inline:
-          sharding-column: user_id
-          algorithm-expression: ds$->{user_id % 2}
+        hint:
+          algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
+      default-table-strategy:
+        hint:
+          algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
       tables:
+        test_hint: # 测试default-database-strategy.hint
+          actual-data-nodes: ds$->{0..1}.dual
         t_order:
           actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
           key-generator:
@@ -52,14 +60,16 @@ spring:
             props:
               worker:
                 id: 123
-            type: SNOWFLAKE
-#          database-strategy:
-#            hint:
-#              algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
+            type: SNOWFLAKE # UUID(UUID.randomUUID())、SNOWFLAKE(符号位(1bit)+时间戳位(41bit)+工作进程位(10bit)+序列号位(12bit))
+          database-strategy:
+            standard:
+              precise-algorithm-class-name: com.ozz.sharding.component.db.MyDbStandardShardingAlgorithm
+              range-algorithm-class-name: com.ozz.sharding.component.db.MyDbStandardShardingAlgorithm
+              sharding-column: user_id
           table-strategy:
             standard:
-              precise-algorithm-class-name: com.ozz.sharding.component.db.MyStandardShardingAlgorithm
-              range-algorithm-class-name: com.ozz.sharding.component.db.MyStandardShardingAlgorithm
+              precise-algorithm-class-name: com.ozz.sharding.component.db.MyTableStandardShardingAlgorithm
+              range-algorithm-class-name: com.ozz.sharding.component.db.MyTableStandardShardingAlgorithm
               sharding-column: order_id
         t_order_item:
           actual-data-nodes: ds$->{0..1}.t_order_item_$->{0..1}
@@ -69,10 +79,14 @@ spring:
               worker:
                 id: 123
             type: SNOWFLAKE
+          database-strategy:
+            inline:
+              sharding-column: user_id
+              algorithm-expression: ds$->{user_id % 2}
           table-strategy:
             inline:
-              algorithm-expression: t_order_item_$->{order_id % 2}
               sharding-column: order_id
+              algorithm-expression: t_order_item_$->{order_id % 2}
     props:
       sql:
         show: true

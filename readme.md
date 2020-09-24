@@ -1,7 +1,7 @@
 # 概览
 > [文档](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc)
 > [SpringBoot配置](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot)
-> [样例](https://github.com/apache/shardingsphere-example/tree/dev/sharding-jdbc-example/sharding-example/sharding-spring-boot-mybatis-example)
+> [示例工程](https://github.com/apache/shardingsphere-example/tree/dev/sharding-jdbc-example/sharding-example/sharding-spring-boot-mybatis-example)
 
 # 读写分离
 MasterSlaveDemo

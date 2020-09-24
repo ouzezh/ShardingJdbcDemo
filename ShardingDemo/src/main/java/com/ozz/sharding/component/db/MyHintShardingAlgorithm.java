@@ -1,14 +1,14 @@
 package com.ozz.sharding.component.db;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Collectors;
 import org.apache.shardingsphere.api.sharding.hint.HintShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.hint.HintShardingValue;
 
-public class MyHintShardingAlgorithm implements HintShardingAlgorithm<Long> {
+public class MyHintShardingAlgorithm extends AbstractShardingAlgorithm implements HintShardingAlgorithm<String> {
   @Override
-  public Collection<String> doSharding(Collection<String> availableTargetNames, HintShardingValue<Long> shardingValue) {
-    System.out.println(availableTargetNames);
-    return Collections.singletonList(String.format("ds-%s"));
+  public Collection<String> doSharding(Collection<String> availableTargetNames, HintShardingValue<String> shardingValue) {
+    printShadingInfo(availableTargetNames, shardingValue);
+    return shardingValue.getValues().stream().map(t -> checkTargetName(availableTargetNames, t)).collect(Collectors.toList());
   }
 }

@@ -1,6 +1,8 @@
 package com.ozz.sharding;
 
+import com.ozz.sharding.model.TOrder;
 import com.ozz.sharding.service.MyService;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,14 +15,37 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-    System.out.println(myService.selectOrderMaster(1l, 1l));
-//    System.out.println(myService.selectOrderSlave());
+    testDefault();
+    testShardingHint();
+    testShardingStandard();
+    testInsert();
+  }
 
-//    myService.insertOrder(new TOrder(1l, null));
-//    myService.insertOrder(new TOrder(1l, 1l));
+  private void testDefault() {
+    myService.selectSql("select name from t_dict");
+    myService.selectSql("select 1 from dual");
+  }
 
-//    System.out.println(myService.selectSlave());
-//    myService.update();
+  private void testInsert() {
+    TOrder order = new TOrder(1l, null);
+    myService.insertOrder(order);
+    System.out.println(order);
+  }
+
+  private void testShardingStandard() {
+    myService.selectOrder(1l, 3l);
+  }
+
+  private void testShardingHint() {
+    try (HintManager hm = HintManager.getInstance()) {
+      hm.setDatabaseShardingValue("ds1");// 清空database&table配置
+      myService.selectSql("select 1 from test_hint");
+    }
+    try (HintManager hm = HintManager.getInstance()) {
+      hm.addDatabaseShardingValue("test_hint", "ds1");
+      hm.addTableShardingValue("test_hint", "dual");
+      myService.selectSql("select 1 from test_hint");
+    }
   }
 
 }

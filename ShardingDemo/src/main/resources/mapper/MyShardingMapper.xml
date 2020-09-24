@@ -2,12 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ozz.sharding.mapper.MyShardingMapper">
-  <insert id="insertOrder">
-    INSERT INTO demo_ds0.t_order_0 (order_id,user_id)
-	  VALUES (#{orderId}, #{userId});
+  <insert id="insertOrder" useGeneratedKeys="true" keyColumn="order_id" keyProperty="orderId">
+    INSERT INTO t_order (
+        <if test="orderId!=null">order_id,</if>
+        user_id
+    )
+	  VALUES (
+        <if test="orderId!=null">#{orderId},</if>
+	      #{userId}
+	  )
   </insert>
   <update id="update">
-    update city set name=name where id=-1
+    update t_order set user_id=user_id
+    <where>
+      <if test="orderId!=null">order_id=#{orderId}</if>
+    </where>
   </update>
   <select id="selectOrder" resultType="com.ozz.sharding.model.TOrder">
     select order_id,user_id
@@ -17,5 +26,8 @@
       <if test="orderId!=null">and order_id=#{orderId}</if>
     </where>
     order by order_id limit 10
+  </select>
+  <select id="selectSql" resultType="com.ozz.sharding.model.TOrder">
+    ${sql}
   </select>
 </mapper>
