@@ -40,8 +40,9 @@ spring:
         ds1:
           master-data-source-name: ds1-master
           slave-data-source-names: ds1-slave0
-      default-data-source-name: ds1 # 默认数据库(未配置则同broadcast-tables轮询各库)
-      # 默认分库策略,同时满足以下两个条件触发
+      default-data-source-name: ds1 # 默认数据源，未配置分片规则的表将通过默认数据源定位
+      # 默认分库策略，只能设置一种：standard,complex,inline,hint,none
+      # 同时满足以下两个条件触发
       # 1.HintManager.getInstance().setDatabaseShardingValue(只分库,跳过SQL解析和改写阶段)或addDatabaseShardingValue
       # 2.配置tables.<tableName>.actual-data-nodes
       default-database-strategy:
