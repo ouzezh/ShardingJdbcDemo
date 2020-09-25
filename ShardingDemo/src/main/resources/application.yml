@@ -40,7 +40,7 @@ spring:
         ds1:
           master-data-source-name: ds1-master
           slave-data-source-names: ds1-slave0
-      default-data-source-name: ds1 # 默认数据源，未配置分片规则的表将通过默认数据源定位
+      default-data-source-name: ds0 # 默认数据源，未配置分片规则的表将通过默认数据源定位
       # 默认分库策略，只能设置一种：standard,complex,inline,hint,none
       # 同时满足以下两个条件触发
       # 1.HintManager.getInstance().setDatabaseShardingValue(只分库,跳过SQL解析和改写阶段)或addDatabaseShardingValue
@@ -54,6 +54,8 @@ spring:
       tables:
         test_hint: # 测试default-database-strategy.hint
           actual-data-nodes: ds$->{0..1}.dual
+        test_tx:
+          actual-data-nodes: ds$->{0..1}.test_tx
         t_order:
           actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
           key-generator:

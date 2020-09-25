@@ -12,11 +12,8 @@
 	      #{userId}
 	  )
   </insert>
-  <update id="update">
-    update t_order set user_id=user_id
-    <where>
-      <if test="orderId!=null">order_id=#{orderId}</if>
-    </where>
+  <update id="updateSql">
+    ${sql}
   </update>
   <select id="selectOrder" resultType="com.ozz.sharding.model.TOrder">
     select order_id,user_id

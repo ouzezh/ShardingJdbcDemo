@@ -28,7 +28,7 @@ public class MyService {
 
   @Transactional(rollbackFor =Exception.class)
   @ShardingTransactionType(value = TransactionType.XA)
-  public void update() {
-    myMapper.update();
+  public void update(String sql) {
+    myMapper.updateSql(sql);
   }
 }

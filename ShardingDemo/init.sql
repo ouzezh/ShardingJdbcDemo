@@ -25,7 +25,7 @@ CREATE TABLE t_order_item_1 (
 	CONSTRAINT t_order_item_1_pk PRIMARY KEY (order_item_id)
 );
 CREATE TABLE `t_dict` (
-  `name` varchar(100) DEFAULT NULL
+  `name` varchar(10) DEFAULT NULL
 );
 
 use demo_ds1;
@@ -52,5 +52,5 @@ CREATE TABLE t_order_item_1 (
 	CONSTRAINT t_order_item_1_pk PRIMARY KEY (order_item_id)
 );
 CREATE TABLE `t_dict` (
-  `name` varchar(100) DEFAULT NULL
+  `name` varchar(10) DEFAULT NULL
 );

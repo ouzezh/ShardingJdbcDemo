@@ -1,6 +1,8 @@
 # 概览
 > [文档](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc)
+
 > [SpringBoot配置](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot)
+
 > [示例工程](https://github.com/apache/shardingsphere-example/tree/dev/sharding-jdbc-example/sharding-example/sharding-spring-boot-mybatis-example)
 
 # 读写分离
@@ -11,8 +13,10 @@ ShardingDemo
 
 初始化脚本：init.sql
 
-分片算法参考：http://shardingsphere.apache.org/document/legacy/2.x/cn/02-guide/sharding
+> [SpringBoot配置 数据分片 + 读写分离](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87--%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB)
 
-参考：
-> [SpringBoot使用Sharding-JDBC分库分表](https://juejin.im/post/6844903773383426061)
+> [分片算法](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sharding)
 
+# 分布式事务
+
+> [Sharding-JDBC分布式事务](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/usage/transaction)

@@ -15,10 +15,15 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-    testDefault();
-    testShardingHint();
-    testShardingStandard();
-    testInsert();
+//    testDefault();
+//    testShardingHint();
+//    testShardingStandard();
+//    testInsert();
+    testTransaction();
+  }
+
+  private void testTransaction() {
+    myService.update("update test_tx set name = '8' where id = 1");
   }
 
   private void testDefault() {

@@ -10,5 +10,6 @@ public interface MyShardingMapper {
   List<TOrder> selectOrder(@Param("userId") Long userId, @Param("orderId") Long orderId);
 
   void insertOrder(TOrder order);
-  void update();
+
+  void updateSql(String sql);
 }
