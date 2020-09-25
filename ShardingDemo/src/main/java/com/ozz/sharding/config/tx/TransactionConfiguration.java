@@ -1,4 +1,4 @@
-package com.ozz.sharding.component.tx;
+package com.ozz.sharding.config.tx;
 
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;

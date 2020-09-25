@@ -1,4 +1,4 @@
-package com.ozz.sharding.component.db;
+package com.ozz.sharding.config.db;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;

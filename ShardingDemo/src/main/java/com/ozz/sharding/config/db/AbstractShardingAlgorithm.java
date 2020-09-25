@@ -1,4 +1,4 @@
-package com.ozz.sharding.component.db;
+package com.ozz.sharding.config.db;
 
 import java.util.Collection;
 import org.apache.shardingsphere.api.sharding.ShardingValue;
