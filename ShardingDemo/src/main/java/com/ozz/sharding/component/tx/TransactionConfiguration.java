@@ -1,4 +1,4 @@
-package com.ozz.sharding.component.db;
+package com.ozz.sharding.component.tx;
 
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +8,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Sharding-JDBC分布式事务支持
+ */
 @Configuration
 @EnableTransactionManagement
 public class TransactionConfiguration {
