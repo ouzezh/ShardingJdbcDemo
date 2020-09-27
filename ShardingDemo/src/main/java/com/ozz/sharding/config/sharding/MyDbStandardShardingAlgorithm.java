@@ -1,4 +1,4 @@
-package com.ozz.sharding.config.db;
+package com.ozz.sharding.config.sharding;
 
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;

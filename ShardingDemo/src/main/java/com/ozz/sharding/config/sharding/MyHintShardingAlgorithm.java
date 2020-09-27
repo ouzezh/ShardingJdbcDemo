@@ -1,4 +1,4 @@
-package com.ozz.sharding.config.db;
+package com.ozz.sharding.config.sharding;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

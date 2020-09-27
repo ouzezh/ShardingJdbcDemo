@@ -1,11 +1,11 @@
-package com.ozz.sharding.config.db;
+package com.ozz.sharding.config.sharding;
 
 import java.util.Collection;
 import org.apache.shardingsphere.api.sharding.ShardingValue;
 
 public abstract class AbstractShardingAlgorithm {
   protected void printShadingInfo(Collection<String> availableTargetNames, ShardingValue shardingValue) {
-    System.out.println(String.format("\n====> %s: availableTargetNames=%s, shardingValue=%s\n", getClass().getSimpleName(), availableTargetNames, shardingValue));
+    System.out.println(String.format("\n[ShardingInfo] %s: availableTargetNames=%s, shardingValue=%s\n", getClass().getSimpleName(), availableTargetNames, shardingValue));
   }
 
   protected String checkTargetName(Collection<String> availableTargetNames, String targetName) {
