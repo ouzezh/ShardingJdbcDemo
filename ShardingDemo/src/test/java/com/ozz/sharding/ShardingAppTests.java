@@ -22,10 +22,16 @@ class ShardingAppTests {
     testTransaction();
   }
 
+  /**
+   * 测试事务，其中一个表不存在：同物理库中提交会回滚、不同库不会回滚
+   */
   private void testTransaction() {
     myService.update("update test_tx set name = '8' where id = 1");
   }
 
+  /**
+   * 字典表为广播表，查询任意一个库； 普通表查询默认库
+   */
   private void testDefault() {
     myService.selectSql("select name from t_dict");
     myService.selectSql("select 1 from dual");
@@ -43,7 +49,7 @@ class ShardingAppTests {
 
   private void testShardingHint() {
     try (HintManager hm = HintManager.getInstance()) {
-      hm.setDatabaseShardingValue("ds1");// 清空database&table配置
+      hm.setDatabaseShardingValue("ds1");// 仅匹配数据库 ( 清空 database & table 配置 )
       myService.selectSql("select 1 from test_hint");
     }
     try (HintManager hm = HintManager.getInstance()) {
