@@ -23,12 +23,10 @@ spring:
       master-data-source-name: ds-master
       slave-data-source-names: ds-slave0
     props:
-      sql:
-        show: true
-      check:
-        table:
-          metadata:
-            enabled: false
+      sql.show: true #是否开启SQL显示，默认值: false
+#      executor.size: #工作线程数量，默认值: CPU核数
+#      max.connections.size.per.query: # 每个查询可以打开的最大连接数量,默认为1
+#      check.table.metadata.enabled: #是否在启动时检查分表元数据一致性，默认值: false
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml

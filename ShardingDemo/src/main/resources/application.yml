@@ -91,12 +91,7 @@ spring:
               sharding-column: order_id
               algorithm-expression: t_order_item_$->{order_id % 2}
     props:
-      sql:
-        show: true
-      check:
-        table:
-          metadata:
-            enabled: false
+      sql.show: true #是否开启SQL显示，默认值: false
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml

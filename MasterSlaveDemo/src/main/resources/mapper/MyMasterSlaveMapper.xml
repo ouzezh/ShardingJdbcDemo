@@ -6,9 +6,9 @@
     update city set name=name where id=-1
   </update>
   <select id="selectMaster" resultType="string">
-    select name from city order by id limit 5
+    select name from city order by id limit #{limit}
   </select>
   <select id="selectSlave" resultType="string">
-    SELECT user FROM `user` limit 5
+    SELECT user FROM `user` limit #{limit}
   </select>
 </mapper>
