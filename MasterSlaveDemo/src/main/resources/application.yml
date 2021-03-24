@@ -25,6 +25,10 @@ spring:
     props:
       sql:
         show: true
+      check:
+        table:
+          metadata:
+            enabled: false
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
