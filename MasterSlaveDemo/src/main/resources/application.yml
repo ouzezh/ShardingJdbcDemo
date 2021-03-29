@@ -5,8 +5,8 @@ spring:
         ds-master,ds-slave0
       ds-master:
         type: com.zaxxer.hikari.HikariDataSource
-        driverClassName: com.mysql.cj.jdbc.Driver
-        jdbcUrl: jdbc:mysql://jw_db:3306/api?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        jdbcUrl: jdbc:log4jdbc:mysql://jw_db:3306/api?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
         username: api
         password: p
         maximumPoolSize: 3
