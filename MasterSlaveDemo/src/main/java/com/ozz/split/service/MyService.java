@@ -18,13 +18,13 @@ public class MyService {
   public List<String> selectMaster() {
     try {
       HintManager.getInstance().setMasterRouteOnly();
-      return myMapper.selectMaster();
+      return myMapper.selectMaster(5);
     } finally {
       HintManager.clear();
     }
   }
 
   public List<String> selectSlave() {
-    return myMapper.selectSlave();
+    return myMapper.selectSlave(5);
   }
 }
