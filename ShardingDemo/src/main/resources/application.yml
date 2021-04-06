@@ -9,6 +9,7 @@ spring:
         username: api
         password: 'p'
         maximumPoolSize: 3
+        maxLifetime: 1800000
       ds0-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,6 +17,7 @@ spring:
         username: api
         password: 'p'
         maximumPoolSize: 3
+        maxLifetime: 1800000
       ds1-master:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,6 +25,7 @@ spring:
         username: api
         password: 'p'
         maximumPoolSize: 3
+        maxLifetime: 1800000
       ds1-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,6 +33,7 @@ spring:
         username: api
         password: 'p'
         maximumPoolSize: 3
+        maxLifetime: 1800000
     sharding:
       binding-tables: t_order,t_order_item  # 绑定表，不会跨库关联
       broadcast-tables: t_dict # 广播表，每个库中数据一样，多为字典表
