@@ -13,6 +13,7 @@ class MasterSlaveAppTests {
 
   @Test
   void contextLoads() {
+    org.apache.shardingsphere.shardingjdbc.jdbc.core.context.MultipleDataSourcesRuntimeContext a;
     System.out.println(myService.selectMaster());
     System.out.println(myService.selectSlave());
     myService.update();

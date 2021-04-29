@@ -15,11 +15,11 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-//    testDefault();
-//    testShardingHint();
-//    testShardingStandard();
+    testDefault();
+    testShardingHint();
+    testShardingStandard();
 //    testInsert();
-    testTransaction();
+//    testTransaction();
   }
 
   /**

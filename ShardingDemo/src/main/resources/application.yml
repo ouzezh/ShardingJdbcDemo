@@ -1,3 +1,4 @@
+## 配置说明: https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87
 spring:
   shardingsphere:
     datasource:
@@ -51,10 +52,10 @@ spring:
       # 2.配置tables.<tableName>.actual-data-nodes
       default-database-strategy:
         hint:
-          algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
+          algorithm-class-name: com.ozz.sharding.config.sharding.MyHintShardingAlgorithm
       default-table-strategy:
         hint:
-          algorithm-class-name: com.ozz.sharding.component.db.MyHintShardingAlgorithm
+          algorithm-class-name: com.ozz.sharding.config.sharding.MyHintShardingAlgorithm
       tables:
         test_hint: # 测试default-database-strategy.hint
           actual-data-nodes: ds$->{0..1}.dual
@@ -70,13 +71,13 @@ spring:
             type: SNOWFLAKE # UUID(UUID.randomUUID())、SNOWFLAKE(符号位(1bit)+时间戳位(41bit)+工作进程位(10bit)+序列号位(12bit))
           database-strategy:
             standard:
-              precise-algorithm-class-name: com.ozz.sharding.component.db.MyDbStandardShardingAlgorithm
-              range-algorithm-class-name: com.ozz.sharding.component.db.MyDbStandardShardingAlgorithm
+              precise-algorithm-class-name: com.ozz.sharding.config.sharding.MyDbStandardShardingAlgorithm
+              range-algorithm-class-name: com.ozz.sharding.config.sharding.MyDbStandardShardingAlgorithm
               sharding-column: user_id
           table-strategy:
             standard:
-              precise-algorithm-class-name: com.ozz.sharding.component.db.MyTableStandardShardingAlgorithm
-              range-algorithm-class-name: com.ozz.sharding.component.db.MyTableStandardShardingAlgorithm
+              precise-algorithm-class-name: com.ozz.sharding.config.sharding.MyTableStandardShardingAlgorithm
+              range-algorithm-class-name: com.ozz.sharding.config.sharding.MyTableStandardShardingAlgorithm
               sharding-column: order_id
         t_order_item:
           actual-data-nodes: ds$->{0..1}.t_order_item_$->{0..1}
