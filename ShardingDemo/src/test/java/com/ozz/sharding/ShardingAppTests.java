@@ -18,7 +18,7 @@ class ShardingAppTests {
   @Test
   void contextLoads() {
     testSelect();
-//    testShardingHint();
+    testShardingHint();
 //    testShardingStandard();
 //    testInsert();
 //    testTransaction();
@@ -52,7 +52,7 @@ class ShardingAppTests {
     // 配置分片未配置路由规则
     list = myService.selectSql("select 1 from t_test_hint");
     System.out.println(list);
-    Assert.isTrue(list.size()==2, "select split and no route rule table error");
+    Assert.isTrue(list.size()==4, "select split and no route rule table error");
 
     // binding-tables
     // (1)如配置绑定表，执行4次查询，分别为： d0-order0-item0, d0-order1-item1, d1-order0-item0, d1-order1-item1
@@ -79,14 +79,29 @@ class ShardingAppTests {
   }
 
   private void testShardingHint() {
+    List<String> list = myService.selectSql("select code from t_master_slave");
+    System.out.println(list);
+    Assert.isTrue(list.size()==1&&"mc".equals(list.get(0)), "check status error");
     try (HintManager hm = HintManager.getInstance()) {
-      hm.setDatabaseShardingValue("ds1");// 仅匹配数据库 ( 清空 database & table 配置 )
-      myService.selectSql("select 1 from t_test_hint");
+      hm.setDatabaseShardingValue("ds0");// 仅匹配数据库 ( 清空 database & table 配置 )
+      list = myService.selectSql("select code from t_master_slave");
+      System.out.println(list);
+      Assert.isTrue(list.size()==1&&"sc".equals(list.get(0)), "check status error");
+    } finally {
+      HintManager.clear();
     }
+
+    list = myService.selectSql("select name from t_test_hint");
+    System.out.println(list);
+    Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
     try (HintManager hm = HintManager.getInstance()) {
-      hm.addDatabaseShardingValue("t_test_hint", "ds1");
+      hm.addDatabaseShardingValue("t_test_hint", "ds0");
       hm.addTableShardingValue("t_test_hint", "dual");
-      myService.selectSql("select 1 from t_test_hint");
+      list = myService.selectSql("select name from t_dict");
+      System.out.println(list);
+      Assert.isTrue(list.size()==1&&"n1".equals(list.get(0)), "check status error");
+    } finally {
+      HintManager.clear();
     }
   }
 

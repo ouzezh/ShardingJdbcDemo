@@ -62,7 +62,7 @@ spring:
           algorithm-class-name: com.ozz.sharding.config.sharding.MyHintShardingAlgorithm
       tables:
         t_test_hint: # 测试default-database-strategy.hint
-          actual-data-nodes: ds$->{0..1}.dual
+          actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
         t_test_tx:
           actual-data-nodes: ds$->{0..1}.t_test_tx
         t_order:
