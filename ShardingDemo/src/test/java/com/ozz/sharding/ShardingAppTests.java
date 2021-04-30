@@ -55,9 +55,9 @@ class ShardingAppTests {
     Assert.isTrue(list.size()==2, "select split and no route rule table error");
 
     // binding-tables
-    list = myService.selectSql("select o.order_id from t_order o join t_order_item i on 1=1");
+    list = myService.selectSql("select o.order_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id");
     System.out.println(list);
-    Assert.isTrue(list.size()==8, "select split and no route rule table error");
+    Assert.isTrue(list.size()==8, "select binding-tables error");
   }
 
   private void testInsert() {
