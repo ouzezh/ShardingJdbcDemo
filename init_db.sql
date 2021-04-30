@@ -120,4 +120,7 @@ VALUES (2,2,1);
 INSERT INTO demo_ds1.t_order_item_1 (order_item_id,order_id,user_id)
 VALUES (3,3,1);
 
+INSERT INTO demo_ds0.t_order_item_0 (order_item_id,order_id,user_id)
+VALUES (4,1,0);
+
 -- Sharding end --

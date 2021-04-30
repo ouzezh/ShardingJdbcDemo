@@ -55,9 +55,11 @@ class ShardingAppTests {
     Assert.isTrue(list.size()==2, "select split and no route rule table error");
 
     // binding-tables
-    list = myService.selectSql("select o.order_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id");
+    // (1)如配置绑定表，执行4次查询，分别为： d0-order0-item0, d0-order1-item1, d1-order0-item0, d1-order1-item1
+    // (2)如未配置绑定表，将执行2*2+2*2共8次查询，返回5条结果
+    list = myService.selectSql("select i.order_item_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id");
     System.out.println(list);
-    Assert.isTrue(list.size()==8, "select binding-tables error");
+    Assert.isTrue(list.size()==4, "select binding-tables error");
   }
 
   private void testInsert() {
