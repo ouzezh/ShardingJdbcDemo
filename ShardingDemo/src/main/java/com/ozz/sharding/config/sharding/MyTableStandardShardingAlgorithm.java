@@ -2,8 +2,9 @@ package com.ozz.sharding.config.sharding;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
@@ -29,7 +30,12 @@ public class MyTableStandardShardingAlgorithm extends AbstractShardingAlgorithm 
     if(lower == null || upper == null || lower > upper) {
       return availableTargetNames;
     } else {
-      return Collections.singletonList(checkTargetName(availableTargetNames, getTargetName(shardingValue.getLogicTableName(), lower % 2)));
+      List<String> list = new ArrayList<>();
+      upper = Math.min(upper, lower.longValue() + availableTargetNames.size() - 1);
+      for(long i=lower.longValue(); i<=upper.longValue(); i++) {
+        list.add(checkTargetName(availableTargetNames, getTargetName(shardingValue.getLogicTableName(), i % availableTargetNames.size())));
+      }
+      return list;
     }
   }
 

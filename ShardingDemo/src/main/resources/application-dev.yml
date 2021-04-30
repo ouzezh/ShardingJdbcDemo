@@ -1,43 +1,42 @@
-## 配置说明: https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87
 spring:
   shardingsphere:
     datasource:
       names: ds0-master,ds1-master,ds0-slave0,ds1-slave0
       ds0-master:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: api
-        password: 'p'
+        driver-class-name: net.sf.log4jdbc.DriverSpy
+        jdbc-url: jdbc:log4jdbc:mysql://my_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: myUser
+        password: p
         maximumPoolSize: 3
         maxLifetime: 1800000
       ds0-slave0:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: api
-        password: 'p'
+        driver-class-name: net.sf.log4jdbc.DriverSpy
+        jdbc-url: jdbc:log4jdbc:mysql://my_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: myUser
+        password: p
         maximumPoolSize: 3
         maxLifetime: 1800000
       ds1-master:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: api
-        password: 'p'
+        driver-class-name: net.sf.log4jdbc.DriverSpy
+        jdbc-url: jdbc:log4jdbc:mysql://my_db:5306/demo_ds1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: myUser
+        password: p
         maximumPoolSize: 3
         maxLifetime: 1800000
       ds1-slave0:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://sx_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: api
-        password: 'p'
+        driver-class-name: net.sf.log4jdbc.DriverSpy
+        jdbc-url: jdbc:log4jdbc:mysql://my_db:5306/demo_ds0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: myUser
+        password: p
         maximumPoolSize: 3
         maxLifetime: 1800000
     sharding:
-      binding-tables: t_order,t_order_item  # 绑定表，不会跨库关联
-      broadcast-tables: t_dict # 广播表，每个库中数据一样，多为字典表
+#      binding-tables[0]: t_order,t_order_item  # 绑定表，不会跨库关联
+      broadcast-tables[0]: t_dict # 广播表，每个库中数据一样，多为字典表
       master-slave-rules:
         ds0:
           master-data-source-name: ds0-master
@@ -45,7 +44,7 @@ spring:
         ds1:
           master-data-source-name: ds1-master
           slave-data-source-names: ds1-slave0
-      default-data-source-name: ds0 # 默认数据源，未配置分片规则的表将通过默认数据源定位
+      default-data-source-name: ds1 # 默认数据源，未配置分片规则的表将通过默认数据源定位
       # 默认分库策略，只能设置一种：standard,complex,inline,hint,none
       # 同时满足以下两个条件触发
       # 1.HintManager.getInstance().setDatabaseShardingValue(只分库,跳过SQL解析和改写阶段)或addDatabaseShardingValue
@@ -57,17 +56,15 @@ spring:
         hint:
           algorithm-class-name: com.ozz.sharding.config.sharding.MyHintShardingAlgorithm
       tables:
-        test_hint: # 测试default-database-strategy.hint
+        t_test_hint: # 测试default-database-strategy.hint
           actual-data-nodes: ds$->{0..1}.dual
-        test_tx:
-          actual-data-nodes: ds$->{0..1}.test_tx
+        t_test_tx:
+          actual-data-nodes: ds$->{0..1}.t_test_tx
         t_order:
           actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
           key-generator:
             column: order_id
-            props:
-              worker:
-                id: 123
+            props.worker.id: 86
             type: SNOWFLAKE # UUID(UUID.randomUUID())、SNOWFLAKE(符号位(1bit)+时间戳位(41bit)+工作进程位(10bit)+序列号位(12bit))
           database-strategy:
             standard:
@@ -83,9 +80,7 @@ spring:
           actual-data-nodes: ds$->{0..1}.t_order_item_$->{0..1}
           key-generator:
             column: order_item_id
-            props:
-              worker:
-                id: 123
+            props.worker.id: 86
             type: SNOWFLAKE
           database-strategy:
             inline:
@@ -95,13 +90,4 @@ spring:
             inline:
               sharding-column: order_id
               algorithm-expression: t_order_item_$->{order_id % 2}
-    props:
-      sql.show: true #是否开启SQL显示，默认值: false
 
-mybatis:
-  mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.ozz.sharding.model
-  type-aliases-super-type: com.ozz.sharding.model.BaseObject
-  configuration:
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-    mapUnderscoreToCamelCase: true

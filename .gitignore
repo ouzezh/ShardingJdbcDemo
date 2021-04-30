@@ -34,3 +34,5 @@ out/
 .vscode/
 */logs/
 /logs/
+/MasterSlaveDemo/src/main/resources/config/
+/ShardingDemo/src/main/resources/config/

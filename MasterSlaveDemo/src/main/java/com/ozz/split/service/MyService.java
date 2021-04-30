@@ -1,7 +1,8 @@
 package com.ozz.split.service;
 
-import com.ozz.split.mapper.MyMasterSlaveMapper;
+import com.ozz.split.mapper.MySplitMapper;
 import java.util.List;
+import java.util.Map;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,22 +10,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyService {
   @Autowired
-  MyMasterSlaveMapper myMapper;
+  MySplitMapper mySplitMapper;
 
-  public void update() {
-    myMapper.update();
+  public void update(String name) {
+    mySplitMapper.update(name);
   }
 
-  public List<String> selectMaster() {
+  public List<Map<String, String>> selectMaster() {
     try {
       HintManager.getInstance().setMasterRouteOnly();
-      return myMapper.selectMaster(5);
+      return select();
     } finally {
       HintManager.clear();
     }
   }
 
-  public List<String> selectSlave() {
-    return myMapper.selectSlave(5);
+  public List<Map<String, String>> select() {
+    return mySplitMapper.select(1L);
   }
 }

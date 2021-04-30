@@ -11,7 +11,7 @@ MasterSlaveDemo
 # 分库、分表
 ShardingDemo
 
-初始化脚本：init.sql
+初始化脚本：init_db.sql
 
 > [SpringBoot配置 数据分片 + 读写分离](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/configuration/config-spring-boot/#%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87--%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB)
 

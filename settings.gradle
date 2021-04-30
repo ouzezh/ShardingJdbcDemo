@@ -1,3 +1,3 @@
 rootProject.name = 'ShardingJdbcDemo'
 
-include 'MasterSlaveDemo','ShardingDemo','OverrideSource'
+include 'MasterSlaveDemo','ShardingDemo','CommonConfig'

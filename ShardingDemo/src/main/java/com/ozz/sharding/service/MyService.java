@@ -14,7 +14,7 @@ public class MyService {
   @Autowired
   MyShardingMapper myMapper;
 
-  public List<TOrder> selectSql(String sql) {
+  public List<String> selectSql(String sql) {
     return myMapper.selectSql(sql);
   }
 

@@ -1,0 +1,27 @@
+spring:
+  shardingsphere:
+    datasource:
+      names:
+        ds-master,ds-slave0
+      ds-master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        jdbcUrl: jdbc:log4jdbc:mysql://my_db:5306/demo_ds0?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        username: myUser
+        password: p
+        maximumPoolSize: 3
+        maxLifetime: 1800000
+      ds-slave0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        jdbcUrl: jdbc:log4jdbc:mysql://my_db:5306/demo_ds1?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        username: myUser
+        password: p
+        maximumPoolSize: 3
+        maxLifetime: 1800000
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      name: dataSource
+      master-data-source-name: ds-master
+      slave-data-source-names: ds-slave0
+

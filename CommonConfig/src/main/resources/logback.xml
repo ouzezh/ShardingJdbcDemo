@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="1800 seconds" debug="false">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-4relative %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.ozz" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<root level="ERROR" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<logger name="ShardingSphere-SQL" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- HikariCP -->
+	<logger name="com.zaxxer.hikari" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- log4jdbc -->
+	<!-- https://code.google.com/archive/p/log4jdbc-log4j2 -->
+	<!-- 仅仅记录 SQL 语句，会将占位符替换为实际的参数 -->
+	<logger name="jdbc.sqlonly" level="OFF" additivity="false"><!-- sql without execute time -->
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!-- 包含 SQL 语句实际的执行时间 -->
+	<logger name="jdbc.sqltiming" level="DEBUG" additivity="false"><!-- sql with execute time, use warn.threshold to log slow sql -->
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!-- 输出了 Connection 的 open、close 等信息 -->
+	<logger name="jdbc.connection" level="ERROR" additivity="false" />
+	<!-- 除了 ResultSet 之外的所有JDBC调用信息，篇幅较长 -->
+	<logger name="jdbc.audit" level="ERROR" additivity="false" />
+	<!-- 包含 ResultSet 的信息，输出篇幅较长 -->
+	<logger name="jdbc.resultset" level="OFF" additivity="false" />
+</configuration>

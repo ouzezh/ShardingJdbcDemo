@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ozz.split.mapper.MySplitMapper">
+  <select id="select" resultType="map">
+    select id,code,name from t_master_slave where id=#{id} order by id
+  </select>
+  <update id="update">
+    update t_master_slave set name=#{name} where id=1
+  </update>
+</mapper>
