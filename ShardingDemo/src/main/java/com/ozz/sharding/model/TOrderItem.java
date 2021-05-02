@@ -8,12 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TOrderItem extends TOrder {
-  private Long orderItemId;
-  public TOrderItem(){
-    super();
-  }
-  public TOrderItem(Long userId, Long orderId, Long orderItemId){
-    super(userId, orderId);
-    this.orderItemId = orderItemId;
-  }
+  private Integer orderItemId;
 }

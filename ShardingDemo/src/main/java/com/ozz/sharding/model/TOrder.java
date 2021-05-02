@@ -8,14 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TOrder implements BaseObject {
-  private Long userId;
-  private Long orderId;
-  public TOrder(){
-    super();
-  }
-  public TOrder(Long userId, Long orderId){
-    super();
-    this.userId = userId;
-    this.orderId = orderId;
-  }
+  private Integer userId;
+  private Integer orderId;
 }

@@ -1,6 +1,8 @@
 package com.ozz.sharding;
 
+import com.alibaba.fastjson.JSON;
 import com.ozz.sharding.model.TOrder;
+import com.ozz.sharding.model.TOrderItem;
 import com.ozz.sharding.service.MyService;
 import java.util.List;
 import org.apache.shardingsphere.api.hint.HintManager;
@@ -17,10 +19,10 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-    testSelect();
-    testShardingHint();
+//    testSelect();
+//    testShardingHint();
 //    testShardingStandard();
-//    testInsert();
+    testInsert();
 //    testTransaction();
   }
 
@@ -50,56 +52,56 @@ class ShardingAppTests {
     Assert.isTrue(list.size()==1 && "mc".equals(list.get(0)), "select not match table error");
 
     // 配置分片未配置路由规则
-    list = myService.selectSql("select 1 from t_test_hint");
+    list = myService.selectSql("select 1 from t_hint_db_table");
     System.out.println(list);
     Assert.isTrue(list.size()==4, "select split and no route rule table error");
 
     // binding-tables
-    // (1)如配置绑定表，执行4次查询，分别为： d0-order0-item0, d0-order1-item1, d1-order0-item0, d1-order1-item1
-    // (2)如未配置绑定表，将执行2*2+2*2共8次查询，返回5条结果
-    list = myService.selectSql("select i.order_item_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id");
+    // (1)如配置绑定表，执行2次查询，分别为： ds1-order0-item0, ds1-order1-item1
+    // (2)如未配置绑定表，将执行2*2共4次查询，返回5条结果
+    list = myService.selectSql("select i.order_item_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id where o.user_id=0");
     System.out.println(list);
-    Assert.isTrue(list.size()==4, "select binding-tables error");
+    Assert.isTrue(list.size()==2, "select binding-tables error");
   }
 
   private void testInsert() {
-    TOrder order = new TOrder(1l, null);
-    Assert.isNull(order.getOrderId(), "order is not null");
-    myService.insertOrder(order);
-    Assert.isNull(order.getOrderId(), "order is null");
-
-    order = new TOrder(2l, null);
-    Assert.isNull(order.getOrderId(), "order is not null");
-    myService.insertOrder(order);
-    Assert.isNull(order.getOrderId(), "order is null");
+    TOrderItem item = new TOrderItem();
+    item.setOrderId(3);
+    item.setUserId(1);
+    item.setOrderItemId(-1);
+//    Assert.isNull(item.getOrderItemId(), "check status error");
+    myService.insertOrderItem(item);
+    Assert.isTrue(item.getOrderItemId()!=null, "check status error");
   }
 
   private void testShardingStandard() {
-    myService.selectOrder(1l, 3l);
+    List<String> list = myService.selectSql("select order_id from t_order where user_id=1 and order_id=3");
+    System.out.println(JSON.toJSONString(list));
+    Assert.isTrue(list.size()==1 && "3".equals(list.get(0)), "check status error");
   }
 
   private void testShardingHint() {
-    List<String> list = myService.selectSql("select code from t_master_slave");
+    List<String> list = myService.selectSql("select order_id from t_hint_db_table");
     System.out.println(list);
-    Assert.isTrue(list.size()==1&&"mc".equals(list.get(0)), "check status error");
+    Assert.isTrue(list.size()==4, "check status error");
     try (HintManager hm = HintManager.getInstance()) {
-      hm.setDatabaseShardingValue("ds0");// 仅匹配数据库 ( 清空 database & table 配置 )
-      list = myService.selectSql("select code from t_master_slave");
+      hm.setDatabaseShardingValue("ds1");// 仅匹配数据库 ( 清空 database & table 配置 )
+      list = myService.selectSql("select order_id from t_hint_db_table");
       System.out.println(list);
-      Assert.isTrue(list.size()==1&&"sc".equals(list.get(0)), "check status error");
+      Assert.isTrue(list.size()==2, "check status error");
     } finally {
       HintManager.clear();
     }
 
-    list = myService.selectSql("select name from t_test_hint");
+    list = myService.selectSql("select order_id from t_hint_db_table");
     System.out.println(list);
-    Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
+    Assert.isTrue(list.size()==4, "check status error");
     try (HintManager hm = HintManager.getInstance()) {
-      hm.addDatabaseShardingValue("t_test_hint", "ds0");
-      hm.addTableShardingValue("t_test_hint", "dual");
-      list = myService.selectSql("select name from t_dict");
+      hm.addDatabaseShardingValue("t_hint_db_table", "ds1");
+      hm.addTableShardingValue("t_hint_db_table", "t_order_1");
+      list = myService.selectSql("select order_id from t_hint_db_table");
       System.out.println(list);
-      Assert.isTrue(list.size()==1&&"n1".equals(list.get(0)), "check status error");
+      Assert.isTrue(list.size()==1&&"3".equals(list.get(0)), "check status error");
     } finally {
       HintManager.clear();
     }

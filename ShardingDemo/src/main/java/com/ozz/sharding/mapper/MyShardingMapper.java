@@ -1,15 +1,15 @@
 package com.ozz.sharding.mapper;
 
 import com.ozz.sharding.model.TOrder;
+import com.ozz.sharding.model.TOrderItem;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface MyShardingMapper {
+
   List<String> selectSql(@Param("sql") String sql);
 
-  List<TOrder> selectOrder(@Param("userId") Long userId, @Param("orderId") Long orderId);
+  int updateSql(@Param("sql") String sql);
 
-  void insertOrder(TOrder order);
-
-  void updateSql(String sql);
+  int insertOrderItem(TOrderItem item);
 }

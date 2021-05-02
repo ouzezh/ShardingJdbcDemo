@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ozz.sharding.mapper.MyShardingMapper">
-  <insert id="insertOrder" useGeneratedKeys="true" keyColumn="order_id" keyProperty="orderId">
-    INSERT INTO t_order (
-        <if test="orderId!=null">order_id,</if>
-        user_id
-    )
-	  VALUES (
-        <if test="orderId!=null">#{orderId},</if>
-	      #{userId}
-	  )
-  </insert>
-  <update id="updateSql">
-    ${sql}
-  </update>
-  <select id="selectOrder" resultType="com.ozz.sharding.model.TOrder">
-    select order_id,user_id
-    from t_order
-    <where>
-      <if test="userId!=null">user_id=#{userId}</if>
-      <if test="orderId!=null">and order_id=#{orderId}</if>
-    </where>
-    order by order_id limit 10
-  </select>
   <select id="selectSql" resultType="string">
     ${sql}
   </select>
+
+  <insert id="insertOrderItem" useGeneratedKeys="true" keyColumn="order_item_id" keyProperty="orderItemId">
+    INSERT INTO t_order_item (
+      <if test="orderItemId != null">order_item_id,</if>
+      order_id,user_id
+    )
+    VALUES (
+      <if test="orderItemId != null">#{orderItemId},</if>
+      #{orderId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}
+    )
+  </insert>
+
+
+  <update id="updateSql">
+    ${sql}
+  </update>
 </mapper>

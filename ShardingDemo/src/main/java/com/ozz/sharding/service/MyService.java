@@ -2,6 +2,7 @@ package com.ozz.sharding.service;
 
 import com.ozz.sharding.mapper.MyShardingMapper;
 import com.ozz.sharding.model.TOrder;
+import com.ozz.sharding.model.TOrderItem;
 import java.util.List;
 import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
 import org.apache.shardingsphere.transaction.core.TransactionType;
@@ -18,17 +19,13 @@ public class MyService {
     return myMapper.selectSql(sql);
   }
 
-  public List<TOrder> selectOrder(Long userId, Long orderId) {
-    return myMapper.selectOrder(userId, orderId);
-  }
-
-  public void insertOrder(TOrder order) {
-    myMapper.insertOrder(order);
-  }
-
   @Transactional(rollbackFor =Exception.class)
   @ShardingTransactionType(value = TransactionType.XA)
-  public void update(String sql) {
-    myMapper.updateSql(sql);
+  public int update(String sql) {
+    return myMapper.updateSql(sql);
+  }
+
+  public int insertOrderItem(TOrderItem item) {
+    return myMapper.insertOrderItem(item);
   }
 }

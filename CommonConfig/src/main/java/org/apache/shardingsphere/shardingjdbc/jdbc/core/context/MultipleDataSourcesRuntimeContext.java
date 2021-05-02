@@ -19,6 +19,7 @@ import org.apache.shardingsphere.spi.database.type.DatabaseType;
 import org.apache.shardingsphere.sql.parser.binder.metadata.schema.SchemaMetaData;
 import org.apache.shardingsphere.underlying.common.config.DatabaseAccessConfiguration;
 import org.apache.shardingsphere.underlying.common.metadata.ShardingSphereMetaData;
+import org.apache.shardingsphere.underlying.common.metadata.datasource.DataSourceMetas;
 import org.apache.shardingsphere.underlying.common.rule.BaseRule;
 
 /**
@@ -38,14 +39,17 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
     }
     
     private ShardingSphereMetaData createMetaData(final Map<String, DataSource> dataSourceMap, final DatabaseType databaseType) throws SQLException {
-//        long start = System.currentTimeMillis();
-//        DataSourceMetas dataSourceMetas = new DataSourceMetas(databaseType, getDatabaseAccessConfigurationMap(dataSourceMap));
-//        SchemaMetaData schemaMetaData = loadSchemaMetaData(dataSourceMap);
-//        ShardingSphereMetaData result = new ShardingSphereMetaData(dataSourceMetas, schemaMetaData);
-//        log.info("Meta data load finished, cost {} milliseconds.", System.currentTimeMillis() - start);
-        log.info("Meta data load: skip by ozz");
-        ShardingSphereMetaData result = new ShardingSphereMetaData(null, null);
-        return result;
+        long start = System.currentTimeMillis();
+        log.info("Meta data load DataSource start");
+        DataSourceMetas dataSourceMetas = new DataSourceMetas(databaseType, getDatabaseAccessConfigurationMap(dataSourceMap));
+        log.info("Meta data load DataSource finished, cost {} milliseconds.", System.currentTimeMillis() - start);
+        start = System.currentTimeMillis();
+        log.info("Meta data load Schema start");
+        SchemaMetaData schemaMetaData = loadSchemaMetaData(dataSourceMap);
+        log.info("Meta data load Schema finished, cost {} milliseconds.", System.currentTimeMillis() - start);
+        return new ShardingSphereMetaData(dataSourceMetas, schemaMetaData);
+//        log.info("Meta data load: skip by ozz");
+//        return new ShardingSphereMetaData(null, null);
     }
     
     private Map<String, DatabaseAccessConfiguration> getDatabaseAccessConfigurationMap(final Map<String, DataSource> dataSourceMap) throws SQLException {
