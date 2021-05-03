@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TOrderItem extends TOrder {
-  private Integer orderItemId;
+  private Long orderItemId;
 }

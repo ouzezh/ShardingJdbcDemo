@@ -50,13 +50,13 @@ CREATE TABLE t_order_1 (
     CONSTRAINT t_order_1_pk PRIMARY KEY (order_id)
 );
 CREATE TABLE t_order_item_0 (
-    order_item_id INT NOT NULL,
+    order_item_id BIGINT NOT NULL,
     order_id INT NOT NULL,
     user_id INT NOT NULL,
     CONSTRAINT t_order_item_0_pk PRIMARY KEY (order_item_id)
 );
 CREATE TABLE t_order_item_1 (
-    order_item_id INT NOT NULL,
+    order_item_id BIGINT NOT NULL,
     order_id INT NOT NULL,
     user_id INT NOT NULL,
     CONSTRAINT t_order_item_1_pk PRIMARY KEY (order_item_id)
@@ -80,13 +80,13 @@ CREATE TABLE t_order_1 (
     CONSTRAINT t_order_1_pk PRIMARY KEY (order_id)
 );
 CREATE TABLE t_order_item_0 (
-    order_item_id INT NOT NULL,
+    order_item_id BIGINT NOT NULL,
     order_id INT NOT NULL,
     user_id INT NOT NULL,
     CONSTRAINT t_order_item_0_pk PRIMARY KEY (order_item_id)
 );
 CREATE TABLE t_order_item_1 (
-    order_item_id INT NOT NULL,
+    order_item_id BIGINT NOT NULL,
     order_id INT NOT NULL,
     user_id INT NOT NULL,
     CONSTRAINT t_order_item_1_pk PRIMARY KEY (order_item_id)

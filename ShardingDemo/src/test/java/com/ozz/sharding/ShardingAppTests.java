@@ -19,9 +19,9 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-//    testSelect();
-//    testShardingHint();
-//    testShardingStandard();
+    testSelect();
+    testShardingHint();
+    testShardingStandard();
     testInsert();
 //    testTransaction();
   }
@@ -68,7 +68,7 @@ class ShardingAppTests {
     TOrderItem item = new TOrderItem();
     item.setOrderId(3);
     item.setUserId(1);
-//    Assert.isNull(item.getOrderItemId(), "check status error");
+    Assert.isNull(item.getOrderItemId(), "check status error");
     myService.insertOrderItem(item);
     Assert.isTrue(item.getOrderItemId()!=null, "check status error");
   }
