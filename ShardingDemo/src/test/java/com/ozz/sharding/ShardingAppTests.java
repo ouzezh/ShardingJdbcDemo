@@ -68,7 +68,6 @@ class ShardingAppTests {
     TOrderItem item = new TOrderItem();
     item.setOrderId(3);
     item.setUserId(1);
-    item.setOrderItemId(-1);
 //    Assert.isNull(item.getOrderItemId(), "check status error");
     myService.insertOrderItem(item);
     Assert.isTrue(item.getOrderItemId()!=null, "check status error");

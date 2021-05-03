@@ -28,6 +28,7 @@ repositories {
 
 dependencies {
     implementation 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:4.1.1'
+    implementation 'com.googlecode.log4jdbc:log4jdbc:1.2' // jdbc 打印 sql
 
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
