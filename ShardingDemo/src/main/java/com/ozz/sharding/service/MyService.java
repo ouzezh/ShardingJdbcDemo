@@ -22,7 +22,7 @@ public class MyService {
     return myMapper.selectSql(sql);
   }
   public List<String> selectSql(String sql, Object... args) {
-    return jdbcTemplate.queryForList(sql, args, String.class);
+    return jdbcTemplate.queryForList(sql, String.class, args);
   }
 
   @Transactional(rollbackFor =Exception.class)
