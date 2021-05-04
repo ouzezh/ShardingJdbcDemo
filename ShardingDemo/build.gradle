@@ -40,8 +40,8 @@ dependencies {
     implementation 'com.googlecode.log4jdbc:log4jdbc:1.2' // jdbc 打印 sql
     implementation 'com.alibaba:fastjson:1.2.73'
 
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
