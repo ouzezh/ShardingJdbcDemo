@@ -23,21 +23,7 @@ class ShardingAppTests {
     testShardingHint();
     testShardingStandard();
     testInsert();
-//    testTransaction();
-  }
-
-  /**
-   * 测试事务，其中一个表不存在：同物理库中提交会回滚、不同库不会回滚
-   */
-  private void testTransaction() {
-    try {
-      myService.update("update t_test_tx set name = '8' where id = 1");
-    } catch (Exception e) {
-      if(e.getMessage().replaceAll("[\\r\\n]", " ").matches(".*Table\\s+.*\\s+doesn't\\s+exist.*")) {
-      } else {
-        throw e;
-      }
-    }
+    testTransaction();
   }
 
   private void testSelect() {
@@ -59,22 +45,22 @@ class ShardingAppTests {
     // binding-tables
     // (1)如配置绑定表，执行2次查询，分别为： ds1-order0-item0, ds1-order1-item1
     // (2)如未配置绑定表，将执行2*2共4次查询，返回5条结果
-    list = myService.selectSql("select i.order_item_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id where o.user_id=0");
+    list = myService.selectSql("select i.order_item_id from t_order o join t_order_item i on o.user_id=i.user_id and o.order_id=i.order_id where o.user_id=?", 0L);
     System.out.println(list);
     Assert.isTrue(list.size()==2, "select binding-tables error");
   }
 
   private void testInsert() {
     TOrderItem item = new TOrderItem();
-    item.setOrderId(3);
-    item.setUserId(1);
+    item.setOrderId(3L);
+    item.setUserId(1L);
     Assert.isNull(item.getOrderItemId(), "check status error");
     myService.insertOrderItem(item);
     Assert.isTrue(item.getOrderItemId()!=null, "check status error");
   }
 
   private void testShardingStandard() {
-    List<String> list = myService.selectSql("select order_id from t_order where user_id=1 and order_id=3");
+    List<String> list = myService.selectSql("select order_id from t_order where user_id=? and order_id=?", 1L, 3L);
     System.out.println(JSON.toJSONString(list));
     Assert.isTrue(list.size()==1 && "3".equals(list.get(0)), "check status error");
   }
@@ -106,4 +92,31 @@ class ShardingAppTests {
     }
   }
 
+  /**
+   * 测试事务，其中一个表不存在：同物理库中提交会回滚、不同库不会回滚
+   */
+  private void testTransaction() {
+    try {
+      HintManager.getInstance().setDatabaseShardingValue("ds0");
+      List<String> list = myService.selectSql("select name from t_transaction");
+      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
+    } finally {
+      HintManager.clear();
+    }
+    try {
+      myService.update("update t_transaction set name=?", "updated");
+    } catch (Exception e) {
+      if(e.getMessage().replaceAll("[\\r\\n]", " ").matches(".*Table\\s+.*\\s+doesn't\\s+exist.*")) {
+      } else {
+        throw e;
+      }
+    }
+    try {
+      HintManager.getInstance().setDatabaseShardingValue("ds0");
+      List<String> list = myService.selectSql("select name from ds0.t_transaction");
+      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
+    } finally {
+      HintManager.clear();
+    }
+  }
 }
