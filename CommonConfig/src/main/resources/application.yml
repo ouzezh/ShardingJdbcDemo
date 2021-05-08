@@ -11,8 +11,6 @@ spring:
 #      check.table.metadata.enabled: #是否在启动时检查分表元数据一致性，默认值: false
 
 mybatis:
-  mapper-locations: classpath*:com/ozz/**/mapper/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     mapUnderscoreToCamelCase: true
-
