@@ -33,12 +33,12 @@ spring:
       # (2)配置绑定表可以禁止同库音表关联出现笛卡尔积的查询
       #    https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sql/#%E7%BB%91%E5%AE%9A%E8%A1%A8
       binding-tables[0]: t_order,t_order_item
-      broadcast-tables[0]: t_dict # 广播表，每个库中数据一样，多为字典表
+      broadcast-tables[0]: t_dict # 广播表，每个库中数据一样，多为字典表，查询随机读一个库，更新全部库
       master-slave-rules:
         ds0:
           master-data-source-name: ds0-master
           slave-data-source-names: ds0-slave0
-      default-data-source-name: ds0 # 默认数据源，未配置分片规则的表将通过默认数据源定位
+      default-data-source-name: ds0 # 默认数据源，未配置分片规则的表将通过默认数据源定位（如不配置，未配置分片规则表读、写都随机使用一个库）
       # 默认分库策略，只能设置一种：standard,complex,inline,hint,none
       # 同时满足以下两个条件触发
       # 1.HintManager.getInstance().setDatabaseShardingValue(只分库,跳过SQL解析和改写阶段)或addDatabaseShardingValue

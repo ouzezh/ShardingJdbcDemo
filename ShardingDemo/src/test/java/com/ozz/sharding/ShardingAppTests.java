@@ -37,7 +37,7 @@ class ShardingAppTests {
     System.out.println(list);
     Assert.isTrue(list.size()==1 && "mc".equals(list.get(0)), "select not match table error");
 
-    // 配置分片未配置路由规则
+    // 配置分片未配置路由规则，读全部分片
     list = myService.selectSql("select 1 from t_hint_db_table");
     System.out.println(list);
     Assert.isTrue(list.size()==4, "select split and no route rule table error");
