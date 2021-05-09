@@ -10,7 +10,7 @@ spring:
         username: myUser
         password: p
         maximumPoolSize: 3
-        maxLifetime: 1800000
+        maxLifetime: 1600000
       ds-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driverClassName: net.sf.log4jdbc.DriverSpy
@@ -18,7 +18,7 @@ spring:
         username: myUser
         password: p
         maximumPoolSize: 3
-        maxLifetime: 1800000
+        maxLifetime: 1600000
     masterslave:
       load-balance-algorithm-type: round_robin
       name: dataSource
