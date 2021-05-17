@@ -40,9 +40,10 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 
 /**
+ * 实现 Connection 接口, 支持 sharding-jdbc-spring-boot-starter:4.1.0+ 读取元数据
+ *
  * 源代码: com.googlecode.log4jdbc:log4jdbc:1.2
  *
- * 实现 Connection 接口
  */
 public class ConnectionSpy implements Connection, Spy
 {
