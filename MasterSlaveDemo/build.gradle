@@ -22,7 +22,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 
 	implementation 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:4.1.1'
-	implementation 'com.googlecode.log4jdbc:log4jdbc:1.2' // jdbc 打印 sql
+	implementation 'p6spy:p6spy:3.9.1' // jdbc 打印 sql
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

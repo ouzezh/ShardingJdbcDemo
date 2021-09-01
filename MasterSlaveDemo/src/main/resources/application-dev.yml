@@ -5,16 +5,16 @@ spring:
         ds-master,ds-slave0
       ds-master:
         type: com.zaxxer.hikari.HikariDataSource
-        driverClassName: net.sf.log4jdbc.DriverSpy
-        jdbcUrl: jdbc:log4jdbc:mysql://my_db:5306/demo_ds0?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        driverClassName: com.p6spy.engine.spy.P6SpyDriver
+        jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds0?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
         username: myUser
         password: p
         maximumPoolSize: 3
         maxLifetime: 1600000
       ds-slave0:
         type: com.zaxxer.hikari.HikariDataSource
-        driverClassName: net.sf.log4jdbc.DriverSpy
-        jdbcUrl: jdbc:log4jdbc:mysql://my_db:5306/demo_ds1?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        driverClassName: com.p6spy.engine.spy.P6SpyDriver
+        jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds1?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
         username: myUser
         password: p
         maximumPoolSize: 3

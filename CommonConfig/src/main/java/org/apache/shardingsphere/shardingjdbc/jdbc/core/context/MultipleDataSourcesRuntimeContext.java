@@ -25,7 +25,7 @@ import org.apache.shardingsphere.underlying.common.rule.BaseRule;
 /**
  * 源码: org.apache.shardingsphere:sharding-jdbc-core:4.1.1
  *
- * 移除加载元数据代码
+ * 加载元数据代码添加日志
  */
 @Getter
 @Slf4j(topic = "ShardingSphere-metadata")
@@ -48,8 +48,6 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
         SchemaMetaData schemaMetaData = loadSchemaMetaData(dataSourceMap);
         log.info("Meta data load Schema finished, cost {} milliseconds.", System.currentTimeMillis() - start);
         return new ShardingSphereMetaData(dataSourceMetas, schemaMetaData);
-//        log.info("Meta data load: skip by ozz");
-//        return new ShardingSphereMetaData(null, null);
     }
     
     private Map<String, DatabaseAccessConfiguration> getDatabaseAccessConfigurationMap(final Map<String, DataSource> dataSourceMap) throws SQLException {
