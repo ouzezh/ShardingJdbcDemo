@@ -24,3 +24,6 @@ ShardingDemo
 # 分布式事务
 
 > [Sharding-JDBC分布式事务](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/manual/sharding-jdbc/usage/transaction)
+
+# 多数据源
+> [多数据源](https://mp.baomidou.com/guide/dynamic-datasource.html)

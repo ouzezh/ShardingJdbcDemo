@@ -1,6 +1,7 @@
 package com.ozz.sharding;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.ozz.sharding.model.TOrder;
 import com.ozz.sharding.model.TOrderItem;
 import com.ozz.sharding.service.MyService;
@@ -19,11 +20,12 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-    testSelect();
-    testShardingHint();
-    testShardingStandard();
-    testInsert();
-    testTransaction();
+//    testSelect();
+//    testShardingHint();
+//    testShardingStandard();
+//    testInsert();
+//    testTransaction();
+    testDynamicDataSource();
   }
 
   private void testSelect() {
@@ -54,39 +56,39 @@ class ShardingAppTests {
     TOrderItem item = new TOrderItem();
     item.setOrderId(3L);
     item.setUserId(1L);
-    Assert.isNull(item.getOrderItemId(), "check status error");
+    Assert.isNull(item.getOrderItemId(), "check status fail");
     myService.insertOrderItem(item);
-    Assert.isTrue(item.getOrderItemId()!=null, "check status error");
+    Assert.isTrue(item.getOrderItemId()!=null, "check status fail");
   }
 
   private void testShardingStandard() {
     List<String> list = myService.selectSql("select order_id from t_order where user_id=? and order_id=?", 1L, 3L);
     System.out.println(JSON.toJSONString(list));
-    Assert.isTrue(list.size()==1 && "3".equals(list.get(0)), "check status error");
+    Assert.isTrue(list.size()==1 && "3".equals(list.get(0)), "check status fail");
   }
 
   private void testShardingHint() {
     List<String> list = myService.selectSql("select order_id from t_hint_db_table");
     System.out.println(list);
-    Assert.isTrue(list.size()==4, "check status error");
+    Assert.isTrue(list.size()==4, "check status fail");
     try (HintManager hm = HintManager.getInstance()) {
       hm.setDatabaseShardingValue("ds1");// 仅匹配数据库 ( 清空 database & table 配置 )
       list = myService.selectSql("select order_id from t_hint_db_table");
       System.out.println(list);
-      Assert.isTrue(list.size()==2, "check status error");
+      Assert.isTrue(list.size()==2, "check status fail");
     } finally {
       HintManager.clear();
     }
 
     list = myService.selectSql("select order_id from t_hint_db_table");
     System.out.println(list);
-    Assert.isTrue(list.size()==4, "check status error");
+    Assert.isTrue(list.size()==4, "check status fail");
     try (HintManager hm = HintManager.getInstance()) {
       hm.addDatabaseShardingValue("t_hint_db_table", "ds1");
       hm.addTableShardingValue("t_hint_db_table", "t_order_1");
       list = myService.selectSql("select order_id from t_hint_db_table");
       System.out.println(list);
-      Assert.isTrue(list.size()==1&&"3".equals(list.get(0)), "check status error");
+      Assert.isTrue(list.size()==1&&"3".equals(list.get(0)), "check status fail");
     } finally {
       HintManager.clear();
     }
@@ -99,7 +101,7 @@ class ShardingAppTests {
     try {
       HintManager.getInstance().setDatabaseShardingValue("ds0");
       List<String> list = myService.selectSql("select name from t_transaction");
-      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
+      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status fail");
     } finally {
       HintManager.clear();
     }
@@ -114,9 +116,27 @@ class ShardingAppTests {
     try {
       HintManager.getInstance().setDatabaseShardingValue("ds0");
       List<String> list = myService.selectSql("select name from ds0.t_transaction");
-      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status error");
+      Assert.isTrue(list.size()==1&&"n0".equals(list.get(0)), "check status fail");
     } finally {
       HintManager.clear();
     }
+  }
+
+  private void testDynamicDataSource() {
+    String sql = "select code from t_dynamic";
+    List<String> res = myService.selectDynamicSql(sql);
+    checkDynamicDataSource(res);
+
+    DynamicDataSourceContextHolder.push("myDynamicDS");
+    try {
+      res = myService.selectSql(sql);
+      checkDynamicDataSource(res);
+    } finally {
+      DynamicDataSourceContextHolder.poll();
+    }
+  }
+  private void checkDynamicDataSource(List<String> res) {
+    System.out.println(res);
+    Assert.isTrue(res.size()==1 && "dc".equalsIgnoreCase(res.get(0)), "check status fail");
   }
 }

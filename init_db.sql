@@ -2,12 +2,17 @@ CREATE USER IF NOT EXISTS 'myUser'@'%' IDENTIFIED BY 'p';
 
 DROP DATABASE IF EXISTS `demo_ds0`;
 DROP DATABASE IF EXISTS `demo_ds1`;
+DROP DATABASE IF EXISTS `demo_dsp`;
 
 CREATE DATABASE `demo_ds0`;
 CREATE DATABASE `demo_ds1`;
+CREATE DATABASE `demo_dsp`;
 
 GRANT ALL PRIVILEGES ON demo_ds0.* TO 'myUser'@'%';
 GRANT ALL PRIVILEGES ON demo_ds1.* TO 'myUser'@'%';
+GRANT ALL PRIVILEGES ON demo_dsp.* TO 'myUser'@'%';
+flush privileges;
+
 
 -- MasterSlave start --
 
@@ -34,6 +39,7 @@ INSERT INTO demo_ds1.t_master_slave (id,code,name)
 VALUES (1,'sc','sn');
 
 -- MasterSlave end --
+
 
 -- Sharding start --
 
@@ -132,3 +138,19 @@ INSERT INTO demo_ds0.t_transaction (id,name) VALUES
 (1,'n0');
 
 -- Sharding end --
+
+
+-- dynamic datasource start --
+
+use demo_dsp;
+
+CREATE TABLE `t_dynamic` (
+`id` bigint NOT NULL,
+`code` varchar(10),
+`name` varchar(20),
+PRIMARY KEY (`id`)
+);
+INSERT INTO t_dynamic (id,code,name) VALUES
+(1,'dc','dn');
+
+-- dynamic datasource start --

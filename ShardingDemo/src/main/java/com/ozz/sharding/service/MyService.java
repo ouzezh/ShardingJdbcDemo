@@ -1,5 +1,6 @@
 package com.ozz.sharding.service;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.ozz.sharding.mapper.MyShardingMapper;
 import com.ozz.sharding.model.TOrder;
 import com.ozz.sharding.model.TOrderItem;
@@ -23,6 +24,10 @@ public class MyService {
   }
   public List<String> selectSql(String sql, Object... args) {
     return jdbcTemplate.queryForList(sql, String.class, args);
+  }
+  @DS("myDynamicDS")
+  public List<String> selectDynamicSql(String sql) {
+    return myMapper.selectSql(sql);
   }
 
   @Transactional(rollbackFor =Exception.class)
