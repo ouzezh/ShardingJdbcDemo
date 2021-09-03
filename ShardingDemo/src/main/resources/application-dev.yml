@@ -89,10 +89,10 @@ spring:
       primary: myShardingDS
       datasource:
         myDynamicDS:
-          hikari:
-            maxLifetime: 1600000
-            maximumPoolSize: 3
           url: jdbc:p6spy:mysql://my_db:5306/demo_dsp?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
           username: myUser
           password: p
           driverClassName: com.p6spy.engine.spy.P6SpyDriver
+          hikari:
+            maxLifetime: 1600000
+            maxPoolSize: 3
