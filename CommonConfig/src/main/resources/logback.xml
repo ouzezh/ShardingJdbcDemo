@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="false" scanPeriod="1800 seconds" debug="false">
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} %-4relative %-5level %logger{35} - %msg%n
 			</pattern>
@@ -9,27 +9,27 @@
 	</appender>
 
 	<root level="WARN" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</root>
 
 	<logger name="com.ozz" level="INFO" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</logger>
 
 	<logger name="ShardingSphere-SQL" level="DEBUG" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</logger>
 	<logger name="ShardingSphere-metadata" level="DEBUG" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</logger>
 
 	<!-- HikariCP -->
 	<logger name="com.zaxxer.hikari" level="DEBUG" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</logger>
 	<!-- p6sy -->
 	<logger name="p6spy" level="INFO" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</logger>
 
 </configuration>
