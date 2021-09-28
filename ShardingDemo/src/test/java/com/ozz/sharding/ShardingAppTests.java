@@ -20,11 +20,11 @@ class ShardingAppTests {
 
   @Test
   void contextLoads() {
-//    testSelect();
-//    testShardingHint();
-//    testShardingStandard();
-//    testInsert();
-//    testTransaction();
+    testSelect();
+    testShardingHint();
+    testShardingStandard();
+    testInsert();
+    testTransaction();
     testDynamicDataSource();
   }
 
