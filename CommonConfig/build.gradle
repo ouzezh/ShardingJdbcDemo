@@ -13,8 +13,8 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:4.1.1'
-
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:4.1.1'
 }
