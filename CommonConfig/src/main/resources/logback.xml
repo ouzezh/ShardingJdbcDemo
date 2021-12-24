@@ -13,7 +13,11 @@
         <appender-ref ref="console"/>
     </root>
 
-    <logger name="com.ozz" level="INFO">
+    <!-- HikariCP -->
+    <logger name="com.zaxxer.hikari" level="DEBUG">
+    </logger>
+    <!-- p6sy -->
+    <logger name="p6spy" level="INFO">
     </logger>
 
     <logger name="ShardingSphere-SQL" level="DEBUG">
@@ -21,11 +25,11 @@
     <logger name="ShardingSphere-metadata" level="DEBUG">
     </logger>
 
-    <!-- HikariCP -->
-    <logger name="com.zaxxer.hikari" level="DEBUG">
+    <logger name="com.ozz" level="DEBUG">
     </logger>
-    <!-- p6sy -->
-    <logger name="p6spy" level="INFO">
+    <logger name="com.ozz.sharding.mapper" level="WARN">
+    </logger>
+    <logger name="com.ozz.split.mapper" level="WARN">
     </logger>
 
 </configuration>
