@@ -14,22 +14,15 @@
     </root>
 
     <!-- HikariCP -->
-    <logger name="com.zaxxer.hikari" level="DEBUG">
-    </logger>
+    <logger name="com.zaxxer.hikari" level="DEBUG"></logger>
     <!-- p6sy -->
-    <logger name="p6spy" level="INFO">
-    </logger>
+    <logger name="p6spy" level="INFO"></logger>
 
-    <logger name="ShardingSphere-SQL" level="DEBUG">
-    </logger>
-    <logger name="ShardingSphere-metadata" level="DEBUG">
-    </logger>
+    <logger name="ShardingSphere-SQL" level="DEBUG"></logger>
+    <logger name="ShardingSphere-metadata" level="DEBUG"></logger>
 
-    <logger name="com.ozz" level="DEBUG">
-    </logger>
-    <logger name="com.ozz.sharding.mapper" level="WARN">
-    </logger>
-    <logger name="com.ozz.split.mapper" level="WARN">
-    </logger>
+    <logger name="com.ozz" level="DEBUG"></logger>
+    <logger name="com.ozz.sharding.mapper" level="WARN"></logger>
+    <logger name="com.ozz.split.mapper" level="WARN"></logger>
 
 </configuration>
