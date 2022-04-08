@@ -30,7 +30,7 @@ spring:
       # 绑定表
       # (1)sharding-jdbc不支持跨库查询
       #    https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/use-norms/sql
-      # (2)配置绑定表可以禁止同库音表关联出现笛卡尔积的查询
+      # (2)配置绑定表可以禁止同库的表关联出现笛卡尔积的查询
       #    https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sql/#%E7%BB%91%E5%AE%9A%E8%A1%A8
       binding-tables[0]: t_order,t_order_item
       broadcast-tables[0]: t_dict # 广播表，每个库中数据一样，多为字典表，查询随机读一个库，更新全部库
