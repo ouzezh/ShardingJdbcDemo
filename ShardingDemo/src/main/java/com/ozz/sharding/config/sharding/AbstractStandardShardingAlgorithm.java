@@ -37,6 +37,14 @@ public abstract class AbstractStandardShardingAlgorithm extends AbstractSharding
     }
   }
 
+  /**
+   * 获取范围边界
+   * @param hasBound 是否有范围
+   * @param boundType 范围类型（开区间、闭区间）
+   * @param endpoint 范围边界值
+   * @param closeFix 闭区间修正参数
+   * @return 范围边界（包含）
+   */
   private Long getEndPoint(boolean hasBound, BoundType boundType, Comparable endpoint, int closeFix) {
     if(!hasBound) {
       return null;
