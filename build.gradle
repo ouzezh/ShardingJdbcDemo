@@ -12,3 +12,7 @@ allprojects {
         mavenCentral()
     }
 }
+
+dependencies {
+    implementation 'cn.hutool:hutool-all:5.8.0.M2'// Hutool是一个小而全的Java工具类库
+}
