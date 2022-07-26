@@ -38,7 +38,7 @@ dependencies {
 
     runtimeOnly 'mysql:mysql-connector-java'
 
-    implementation 'com.alibaba:fastjson:1.2.80'
+    implementation 'com.alibaba:fastjson:1.2.83'
 }
 
 tasks.named('test') {
