@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-devtools'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 
-    implementation 'cn.hutool:hutool-all:latest.release'// Hutool是一个小而全的Java工具类库
+    implementation 'cn.hutool:hutool-all:5.8.11'// Hutool是一个小而全的Java工具类库
 
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'p6spy:p6spy:latest.release' // jdbc 打印 sql
