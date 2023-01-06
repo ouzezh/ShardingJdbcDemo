@@ -5,7 +5,7 @@ spring:
       ds0-master:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong
+        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong&test=ds0-master
         username: myUser
         password: p
         maximumPoolSize: 3
@@ -13,7 +13,7 @@ spring:
       ds0-slave0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong
+        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong&test=ds0-slave0
         username: myUser
         password: p
         maximumPoolSize: 3
@@ -21,7 +21,7 @@ spring:
       ds1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong
+        jdbc-url: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong&test=ds1
         username: myUser
         password: p
         maximumPoolSize: 3
