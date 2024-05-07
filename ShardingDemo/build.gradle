@@ -31,7 +31,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'p6spy:p6spy:latest.release' // jdbc 打印 sql
 
-    implementation 'com.baomidou:dynamic-datasource-spring-boot-starter:3.4.3.4'
+    implementation 'com.baomidou:dynamic-datasource-spring-boot-starter:3.6.1'
 
     implementation 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter:4.1.1'
     implementation 'org.apache.shardingsphere:sharding-transaction-xa-core:4.1.1' // Sharding-JDBC 2PC
