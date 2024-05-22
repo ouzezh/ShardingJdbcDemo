@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.spi.database.type.DatabaseType;
 import org.apache.shardingsphere.sql.parser.binder.metadata.schema.SchemaMetaData;
@@ -42,6 +43,8 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
 
     private final ShardingSphereMetaData metaData;
 
+    private String metaDataCachePath;
+
     protected MultipleDataSourcesRuntimeContext(final Map<String, DataSource> dataSourceMap, final T rule, final Properties props, final DatabaseType databaseType) throws SQLException {
         super(rule, props, databaseType);
         metaData = createMetaData(dataSourceMap, databaseType);
@@ -61,14 +64,20 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
 
     @SneakyThrows
     private SchemaMetaData myLoadSchemaMetaData(Map<String, DataSource> dataSourceMap) {
+//        File folder = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
+//        File file = Paths.get(folder.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
+//        metaDataCachePath = file.getPath();
+
         // 尝试读取本地缓存
-        File folder = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
-        File file = Paths.get(folder.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
-        if(file.exists()) {
-            log.info("Meta data load Schema: load cache from {}", file.getPath());
-            String json = FileUtil.readString(file.getPath(), "UTF-8");
-            Map<String, TableMetaData> tables = JSON.parseObject(json, new TypeReference<HashMap<String, TableMetaData>>(){});
-            return new SchemaMetaData(tables);
+        if(StrUtil.isNotEmpty(metaDataCachePath)) {
+            File file = new File(metaDataCachePath);
+            if (file.exists()) {
+                log.info("Meta data load Schema: load cache from {}", file.getPath());
+                String json = FileUtil.readString(file.getPath(), "UTF-8");
+                Map<String, TableMetaData> tables = JSON.parseObject(json, new TypeReference<HashMap<String, TableMetaData>>() {
+                });
+                return new SchemaMetaData(tables);
+            }
         }
 
         // 从数据库加载
@@ -76,13 +85,17 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
         SchemaMetaData schemaMetaData = loadSchemaMetaData(dataSourceMap);
 
         // 缓存到本地
-        if(!folder.exists()) {
-            Files.createDirectory(folder.toPath());
+        if(StrUtil.isNotEmpty(metaDataCachePath)) {
+            File file = new File(metaDataCachePath);
+            File folder = file.getParentFile();
+            if(!folder.exists()) {
+                Files.createDirectory(folder.toPath());
+            }
+            Map<String, TableMetaData> tables = new HashMap<>();
+            schemaMetaData.getAllTableNames().forEach(t -> tables.put(t, schemaMetaData.get(t)));
+            log.info("Meta data load Schema: write cache to {}", file.getPath());
+            FileUtil.writeString(JSON.toJSONString(tables), file, "UTF-8");
         }
-        Map<String, TableMetaData> tables = new HashMap<>();
-        schemaMetaData.getAllTableNames().forEach(t -> tables.put(t, schemaMetaData.get(t)));
-        log.info("Meta data load Schema: write cache to {}", file.getPath());
-        FileUtil.writeString(JSON.toJSONString(tables), file, "UTF-8");
 
         return schemaMetaData;
     }
