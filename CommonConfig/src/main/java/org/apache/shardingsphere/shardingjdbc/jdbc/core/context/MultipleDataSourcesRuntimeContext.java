@@ -1,5 +1,6 @@
 package org.apache.shardingsphere.shardingjdbc.jdbc.core.context;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -16,11 +17,14 @@ import org.apache.shardingsphere.underlying.common.metadata.datasource.DataSourc
 import org.apache.shardingsphere.underlying.common.rule.BaseRule;
 
 import javax.sql.DataSource;
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -37,8 +41,6 @@ import java.util.Properties;
 public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> extends AbstractRuntimeContext<T> {
 
     private final ShardingSphereMetaData metaData;
-
-    private String metaDataCachePath;
 
     protected MultipleDataSourcesRuntimeContext(final Map<String, DataSource> dataSourceMap, final T rule, final Properties props, final DatabaseType databaseType) throws SQLException {
         super(rule, props, databaseType);
@@ -59,13 +61,12 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
 
     @SneakyThrows
     private SchemaMetaData myLoadSchemaMetaData(Map<String, DataSource> dataSourceMap) {
-//        File folder = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
-//        File file = Paths.get(folder.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
-//        metaDataCachePath = file.getPath();
+//        File folder2 = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
+//        File file = Paths.get(folder2.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
+        File file = null;
 
         // 尝试读取本地缓存
-        if(StrUtil.isNotEmpty(metaDataCachePath)) {
-            File file = new File(metaDataCachePath);
+        if(file != null) {
             if (file.exists()) {
                 log.info("Meta data load Schema: load cache from {}", file.getPath());
                 String json = FileUtil.readString(file.getPath(), "UTF-8");
@@ -80,8 +81,7 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
         SchemaMetaData schemaMetaData = loadSchemaMetaData(dataSourceMap);
 
         // 缓存到本地
-        if(StrUtil.isNotEmpty(metaDataCachePath)) {
-            File file = new File(metaDataCachePath);
+        if(file != null) {
             File folder = file.getParentFile();
             if(!folder.exists()) {
                 Files.createDirectory(folder.toPath());
