@@ -63,7 +63,7 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
     private SchemaMetaData myLoadSchemaMetaData(Map<String, DataSource> dataSourceMap) {
         // 尝试读取本地缓存
         File folder = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
-        File file = Paths.get(folder.getPath(), "/shardingJdbc_SchemaMetaData.json").toFile();
+        File file = Paths.get(folder.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
         if(file.exists()) {
             log.info("Meta data load Schema: load cache from {}", file.getPath());
             String json = FileUtil.readString(file.getPath(), "UTF-8");
