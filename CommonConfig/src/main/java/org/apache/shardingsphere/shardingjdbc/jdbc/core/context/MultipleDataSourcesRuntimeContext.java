@@ -57,7 +57,8 @@ public abstract class MultipleDataSourcesRuntimeContext<T extends BaseRule> exte
     @SneakyThrows
     private SchemaMetaData myLoadSchemaMetaData(Map<String, DataSource> dataSourceMap) {
 //        File folder2 = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath(), StrUtil.format("/Temp/{}", LocalDateTimeUtil.format(LocalDate.now(), "yyyyMM"))).toFile();
-//        File file = Paths.get(folder2.getPath(), StrUtil.format("/shardingJdbc_SchemaMetaData_{}.json", LocalDate.now())).toFile();
+//        String contextPath = Assert.notEmpty(SpringUtil.getProperty("server.servlet.context-path")).replaceAll("/", "_");
+//        File file = Paths.get(folder2.getPath(), StrUtil.format("/shardingJdbc_{}_{}.json", contextPath, LocalDate.now())).toFile();
         File file = null;
 
         // 尝试读取本地缓存
