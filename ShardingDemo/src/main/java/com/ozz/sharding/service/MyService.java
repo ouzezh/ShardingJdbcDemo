@@ -1,42 +1,28 @@
 package com.ozz.sharding.service;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.ozz.sharding.mapper.MyShardingMapper;
-import com.ozz.sharding.model.TOrder;
-import com.ozz.sharding.model.TOrderItem;
-import java.util.List;
-import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
-import org.apache.shardingsphere.transaction.core.TransactionType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 @Service
 public class MyService {
-  @Autowired
-  MyShardingMapper myMapper;
-  @Autowired
-  JdbcTemplate jdbcTemplate;
+    @Resource
+    private MyShardingMapper myMapper;
 
-  public List<String> selectSql(String sql) {
-    return myMapper.selectSql(sql);
-  }
-  public List<String> selectSql(String sql, Object... args) {
-    return jdbcTemplate.queryForList(sql, String.class, args);
-  }
-  @DS("myDynamicDS")
-  public List<String> selectDynamicSql(String sql) {
-    return myMapper.selectSql(sql);
-  }
+    @DS("ds1")
+    public String selectById1(Long id) {
+        return myMapper.selectById(id);
+    }
 
-  @Transactional(rollbackFor =Exception.class)
-  @ShardingTransactionType(value = TransactionType.XA)
-  public int update(String sql, Object... args) {
-    return jdbcTemplate.update(sql, args);
-  }
-
-  public int insertOrderItem(TOrderItem item) {
-    return myMapper.insertOrderItem(item);
-  }
+    public String selectById2(Long id) {
+        try {
+            DynamicDataSourceContextHolder.push("ds2");
+            return myMapper.selectById(id);
+        } finally {
+            DynamicDataSourceContextHolder.poll();
+        }
+    }
 }

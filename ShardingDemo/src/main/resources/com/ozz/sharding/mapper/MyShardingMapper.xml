@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ozz.sharding.mapper.MyShardingMapper">
-  <select id="selectSql" resultType="string">
-    ${sql}
+  <select id="selectById" resultType="string">
+    select code from t_sharding where id=#{id}
   </select>
-
-  <insert id="insertOrderItem" useGeneratedKeys="true" keyColumn="order_item_id" keyProperty="orderItemId">
-    INSERT INTO t_order_item (
-      <if test="orderItemId != null">order_item_id,</if>
-      order_id,user_id
-    )
-    VALUES (
-      <if test="orderItemId != null">#{orderItemId},</if>
-      #{orderId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}
-    )
-  </insert>
-
-
-  <update id="updateSql">
-    ${sql}
-  </update>
 </mapper>
