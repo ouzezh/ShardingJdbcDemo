@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface MyMasterSlaveMapper {
 
-  List<Map<String, String>> select(@Param("id") Long id);
+  List<Map<String, Object>> select(@Param("id") Long id);
 
   void update(@Param("name") String name);
 }

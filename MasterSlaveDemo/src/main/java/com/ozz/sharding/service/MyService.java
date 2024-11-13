@@ -17,7 +17,7 @@ public class MyService {
         myMasterSlaveMapper.update(name);
     }
 
-    public List<Map<String, String>> selectMaster() {
+    public List<Map<String, Object>> selectMaster() {
         try {
             HintManager.getInstance().setWriteRouteOnly();
             return select();
@@ -26,7 +26,7 @@ public class MyService {
         }
     }
 
-    public List<Map<String, String>> select() {
+    public List<Map<String, Object>> select() {
         return myMasterSlaveMapper.select(1L);
     }
 }

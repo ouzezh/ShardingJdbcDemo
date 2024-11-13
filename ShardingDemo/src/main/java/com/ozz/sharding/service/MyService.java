@@ -1,7 +1,6 @@
 package com.ozz.sharding.service;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.ozz.sharding.mapper.MyShardingMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +11,19 @@ public class MyService {
     @Resource
     private MyShardingMapper myMapper;
 
-    @DS("ds1")
-    public String selectById1(Long id) {
+
+    public String selectById(Long id) {
         return myMapper.selectById(id);
     }
 
-    public String selectById2(Long id) {
-        try {
-            DynamicDataSourceContextHolder.push("ds2");
-            return myMapper.selectById(id);
-        } finally {
-            DynamicDataSourceContextHolder.poll();
-        }
+    @DS("ds2")
+    public String selectByIdSharding(Long id) {
+//        try {
+//            DynamicDataSourceContextHolder.push("ds2");
+//            return myMapper.selectById(id);
+//        } finally {
+//            DynamicDataSourceContextHolder.poll();
+//        }
+        return myMapper.selectById(id);
     }
 }

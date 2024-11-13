@@ -5,21 +5,21 @@ props:
   sql-show: true
 
 dataSources:
-  ds_0:
+  master:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
 #     driverClassName: com.mysql.cj.jdbc.Driver
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong&test=master
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong
     username: myUser
     password: p
     maximumPoolSize: 3
     minIdle: 0
     maxLifetime: 1500000
-  ds_1:
+  salve0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
 #     driverClassName: com.mysql.jdbc.Driver
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong&test=slave
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong
     username: myUser
     password: p
     maximumPoolSize: 3
@@ -33,9 +33,9 @@ rules:
 - !READWRITE_SPLITTING
   dataSourceGroups:
     readwrite_ds:
-      writeDataSourceName: ds_0
+      writeDataSourceName: master
       readDataSourceNames:
-        - ds_1
+        - salve0
       # 事务内读请求的路由策略，可选值：PRIMARY（路由至主库）、FIXED（同一事务内路由至固定数据源）、DYNAMIC（同一事务内路由至非固定数据源）。默认值：DYNAMIC
       transactionalReadQueryStrategy: PRIMARY
       loadBalancerName: round_robin

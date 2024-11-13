@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/my")
@@ -16,7 +14,8 @@ public class MyWebController {
     private MyService myService;
 
     @GetMapping(value = "/test", produces = "application/json")
-    public List<Map<String, Object>> test() {
-        return myService.select();
+    public String test() {
+//        return myService.selectById(1L);
+        return myService.selectByIdSharding(1L);
     }
 }

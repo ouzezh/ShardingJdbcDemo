@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @SpringBootTest
 class MasterSlaveAppTests {
@@ -46,7 +47,7 @@ class MasterSlaveAppTests {
     }
 
     private String getProp(String prop, boolean master) {
-        List<Map<String, String>> list = master ? myService.selectMaster() : myService.select();
-        return list.get(0).get(prop);
+        List<Map<String, Object>> list = master ? myService.selectMaster() : myService.select();
+        return Objects.toString(list.get(0).get(prop));
     }
 }
