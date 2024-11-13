@@ -23,6 +23,6 @@
 
     <logger name="com.ozz" level="DEBUG"></logger>
     <logger name="com.ozz.sharding.mapper" level="WARN"></logger>
-    <logger name="com.ozz.split.mapper" level="WARN"></logger>
+    <logger name="com.ozz.sharding.mapper" level="WARN"></logger>
 
 </configuration>

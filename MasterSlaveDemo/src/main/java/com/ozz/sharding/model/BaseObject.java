@@ -1,4 +1,4 @@
-package com.ozz.split.model;
+package com.ozz.sharding.model;
 
 import lombok.Getter;
 import lombok.Setter;

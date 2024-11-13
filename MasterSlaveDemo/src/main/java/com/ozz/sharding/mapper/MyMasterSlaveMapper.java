@@ -1,10 +1,10 @@
-package com.ozz.split.mapper;
+package com.ozz.sharding.mapper;
 
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
-public interface MySplitMapper {
+public interface MyMasterSlaveMapper {
 
   List<Map<String, String>> select(@Param("id") Long id);
 

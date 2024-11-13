@@ -1,0 +1,46 @@
+# 配置说明
+# https://shardingsphere.apache.org/document/5.5.1/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/single/
+
+props:
+  sql-show: true
+
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+#     driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong&test=master
+    username: myUser
+    password: p
+    maximumPoolSize: 3
+    minIdle: 0
+    maxLifetime: 1500000
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+#     driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.p6spy.engine.spy.P6SpyDriver
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong&test=slave
+    username: myUser
+    password: p
+    maximumPoolSize: 3
+    minIdle: 0
+    maxLifetime: 1500000
+
+rules:
+- !SINGLE
+  tables:
+    - "*.*"
+- !READWRITE_SPLITTING
+  dataSourceGroups:
+    readwrite_ds:
+      writeDataSourceName: ds_0
+      readDataSourceNames:
+        - ds_1
+      # 事务内读请求的路由策略，可选值：PRIMARY（路由至主库）、FIXED（同一事务内路由至固定数据源）、DYNAMIC（同一事务内路由至非固定数据源）。默认值：DYNAMIC
+      transactionalReadQueryStrategy: PRIMARY
+      loadBalancerName: round_robin
+  loadBalancers:
+    round_robin:
+      # https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/builtin-algorithm/load-balance/
+      type: ROUND_ROBIN
+
