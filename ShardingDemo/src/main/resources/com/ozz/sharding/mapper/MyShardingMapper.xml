@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ozz.sharding.mapper.MyShardingMapper">
   <select id="selectById" resultType="string">
-    select code from t_sharding where id=#{id}
+    select code from t_sharding
+    <if test="id != null">
+      where id=#{id}
+    </if>
   </select>
 </mapper>
