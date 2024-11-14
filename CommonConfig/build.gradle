@@ -20,4 +20,6 @@ dependencies {
 
     implementation 'cn.hutool:hutool-all:5.8.18'
     implementation 'com.alibaba:fastjson:1.2.83'
+
+    implementation 'org.apache.shardingsphere:shardingsphere-jdbc:5.5.1'
 }
