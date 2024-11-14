@@ -9,7 +9,7 @@ dataSources:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
 #     driverClassName: com.mysql.cj.jdbc.Driver
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds0?serverTimezone=Hongkong
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds_m?serverTimezone=Hongkong
     username: myUser
     password: p
     maximumPoolSize: 3
@@ -19,7 +19,7 @@ dataSources:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
 #     driverClassName: com.mysql.jdbc.Driver
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds1?serverTimezone=Hongkong
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds_s?serverTimezone=Hongkong
     username: myUser
     password: p
     maximumPoolSize: 3
@@ -29,7 +29,7 @@ dataSources:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
 #     driverClassName: com.mysql.jdbc.Driver
     driverClassName: com.p6spy.engine.spy.P6SpyDriver
-    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds2?serverTimezone=Hongkong
+    jdbcUrl: jdbc:p6spy:mysql://my_db:5306/demo_ds_1?serverTimezone=Hongkong
     username: myUser
     password: p
     maximumPoolSize: 3
@@ -56,7 +56,7 @@ rules:
 - !SHARDING
   tables:
     t_sharding:
-      actualDataNodes: shardingDs_${0..1}.t_sharding_${0..1}
+      actualDataNodes: shardingDs_${0..1}.t_sharding_${0..0}
       tableStrategy:
         standard:
           shardingColumn: id
@@ -67,7 +67,7 @@ rules:
           shardingAlgorithmName: database_inline
   defaultDatabaseStrategy:
     standard:
-      shardingColumn: id
+      shardingColumn: xx
       shardingAlgorithmName: database_default
   defaultTableStrategy:
     none:
@@ -84,4 +84,4 @@ rules:
     t_sharding_inline:
       type: INLINE
       props:
-        algorithm-expression: t_sharding_${id % 2}
+        algorithm-expression: t_sharding_${id % 1}
