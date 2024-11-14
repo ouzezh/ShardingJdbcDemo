@@ -14,6 +14,7 @@ dataSources:
     password: p
     maximumPoolSize: 3
     minIdle: 0
+    idleTimeout: 600000
     maxLifetime: 1500000
   slave0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
@@ -24,6 +25,7 @@ dataSources:
     password: p
     maximumPoolSize: 3
     minIdle: 0
+    idleTimeout: 600000
     maxLifetime: 1500000
   shardingDs_1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
