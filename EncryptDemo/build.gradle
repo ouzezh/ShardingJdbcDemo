@@ -33,7 +33,7 @@ dependencies {
 
 	runtimeOnly 'mysql:mysql-connector-java'
 
-    implementation 'cn.hutool:hutool-all:5.8.18'
+    implementation 'cn.hutool:hutool-all:5.8.39'
 }
 
 tasks.named('test') {
